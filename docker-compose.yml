@@ -4,6 +4,8 @@ services:
     image: floridasankrantiutsav-dev:latest
     container_name: floridasankrantiutsav-dev
     restart: unless-stopped
+    depends_on:
+      - api
     labels:
       - traefik.enable=true
       - traefik.http.services.floridasankrantiutsav-dev.loadbalancer.server.port=80
@@ -12,3 +14,51 @@ services:
       - traefik.http.routers.floridasankrantiutsav-dev.tls=true
       - traefik.http.routers.floridasankrantiutsav-dev.tls.certresolver=letsencrypt
       - traefik.http.routers.floridasankrantiutsav-dev.service=floridasankrantiutsav-dev
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: floridasankrantiutsav-api:latest
+    container_name: floridasankrantiutsav-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: "3000"
+      PUBLIC_URL: ${PUBLIC_URL:-https://dev.floridasankrantiutsav.com}
+      TRUST_PROXY: "2"
+      DB_HOST: db
+      DB_NAME: fsu
+      DB_USER: fsu
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      ADMIN_USER: ${ADMIN_USER:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-Florida Sankranti Utsav <info@floridasankrantiutsav.com>}
+
+  db:
+    image: mysql:8.4
+    container_name: floridasankrantiutsav-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: fsu
+      MYSQL_USER: fsu
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in .env}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+volumes:
+  db-data:

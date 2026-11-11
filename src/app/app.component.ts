@@ -8,6 +8,7 @@ import { HeroMobileComponent } from './sections/hero-mobile/hero-mobile.componen
 import { HeroComponent } from './sections/hero/hero.component';
 import { ScheduleComponent } from './sections/schedule/schedule.component';
 import { ScrollTopComponent } from './sections/scroll-top/scroll-top.component';
+import { VolunteerComponent } from './sections/volunteer/volunteer.component';
 import { WhatsappComponent } from './sections/whatsapp/whatsapp.component';
 
 @Component({
@@ -19,6 +20,7 @@ import { WhatsappComponent } from './sections/whatsapp/whatsapp.component';
     AboutComponent,
     ActivitiesComponent,
     ScheduleComponent,
+    VolunteerComponent,
     CtaComponent,
     ScrollTopComponent,
     WhatsappComponent,

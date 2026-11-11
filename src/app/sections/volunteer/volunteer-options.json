@@ -1,0 +1,22 @@
+{
+  "accountTypes": [
+    { "value": "student", "label": "Student" },
+    { "value": "parent", "label": "Parent" },
+    { "value": "volunteer", "label": "Community volunteer" }
+  ],
+  "interests": [
+    { "value": "registration", "label": "Registration desk" },
+    { "value": "food", "label": "Food & beverages" },
+    { "value": "kids", "label": "Kids activities" },
+    { "value": "cultural", "label": "Cultural program" },
+    { "value": "kites", "label": "Kite festival" },
+    { "value": "setup", "label": "Setup & cleanup" },
+    { "value": "parking", "label": "Parking & traffic" },
+    { "value": "photo", "label": "Photography & media" }
+  ],
+  "availability": [
+    { "value": "setup", "label": "Setup · 8:00 – 11:00 AM" },
+    { "value": "event", "label": "Event · 11:00 AM – 4:00 PM" },
+    { "value": "cleanup", "label": "Cleanup · 4:00 – 6:00 PM" }
+  ]
+}

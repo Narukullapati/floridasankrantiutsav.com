@@ -1,0 +1,161 @@
+<section class="fsu-vol-section">
+  <div class="fsu-vol-container">
+    <div class="fsu-vol-intro">
+      <div class="fsu-vol-badge">
+        <span class="fsu-vol-dot"></span>
+        <span class="fsu-vol-badge-text">VOLUNTEER WITH US</span>
+      </div>
+      <h2 class="fsu-vol-heading">Volunteer <span class="fsu-vol-orange">Registration</span></h2>
+      <p class="fsu-vol-subtitle">
+        Help us bring Florida Sankranti Utsav (Tampa) 2027 to life. Students, parents, and community members are all welcome.
+      </p>
+      <div class="fsu-vol-divider">
+        <span class="fsu-vol-line"></span>
+        <span class="fsu-vol-sun">☼</span>
+        <span class="fsu-vol-line"></span>
+      </div>
+    </div>
+
+    <div class="fsu-vol-card">
+      <div class="fsu-vol-card-top">
+        <span class="fsu-vol-eyebrow">FLORIDA SANKRANTI UTSAV 2027</span>
+        <h3 class="fsu-vol-card-title">Register as a volunteer</h3>
+        <p class="fsu-vol-card-sub">January 16, 2027 · Jyohas Farms, Zephyrhills, FL</p>
+      </div>
+
+      @if (status() === 'success' && result(); as r) {
+        <div class="fsu-vol-success" role="status">
+          <div class="fsu-vol-success-icon" aria-hidden="true">✓</div>
+          <h4>Thank you, {{ r.name }}!</h4>
+          @if (r.student) {
+            <p>
+              Your registration is received. We've sent a consent link to your parent / guardian at
+              <strong>{{ r.parentEmail }}</strong>. You can volunteer once they confirm.
+            </p>
+          } @else {
+            <p>Your registration is received. Our team will contact you with your volunteer assignment closer to the event.</p>
+          }
+          <button type="button" class="fsu-vol-btn fsu-vol-btn-ghost" (click)="reset()">Register another volunteer</button>
+        </div>
+      } @else {
+        <form class="fsu-vol-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="fsu-vol-grid">
+            <div class="fsu-vol-field">
+              <label for="vol-accountType">Account type <span class="fsu-vol-req">*</span></label>
+              <select id="vol-accountType" formControlName="accountType">
+                @for (t of accountTypes; track t.value) {
+                  <option [value]="t.value">{{ t.label }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="fsu-vol-field">
+              <label for="vol-firstName">First name <span class="fsu-vol-req">*</span></label>
+              <input id="vol-firstName" type="text" formControlName="firstName" placeholder="First name" autocomplete="given-name" [class.is-invalid]="error('firstName')" />
+              @if (error('firstName'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+            </div>
+
+            <div class="fsu-vol-field">
+              <label for="vol-middleName">Middle name</label>
+              <input id="vol-middleName" type="text" formControlName="middleName" placeholder="Middle name (optional)" autocomplete="additional-name" [class.is-invalid]="error('middleName')" />
+              @if (error('middleName'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+            </div>
+
+            <div class="fsu-vol-field">
+              <label for="vol-lastName">Last name <span class="fsu-vol-req">*</span></label>
+              <input id="vol-lastName" type="text" formControlName="lastName" placeholder="Last name" autocomplete="family-name" [class.is-invalid]="error('lastName')" />
+              @if (error('lastName'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+            </div>
+
+            <div class="fsu-vol-field">
+              <label for="vol-email">Email address <span class="fsu-vol-req">*</span></label>
+              <input id="vol-email" type="email" formControlName="email" placeholder="you@example.com" autocomplete="email" [class.is-invalid]="error('email')" />
+              @if (error('email'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+            </div>
+
+            @if (isStudent()) {
+              <div class="fsu-vol-field">
+                <label for="vol-parentEmail">Parent / guardian email <span class="fsu-vol-req">*</span></label>
+                <input id="vol-parentEmail" type="email" formControlName="parentEmail" placeholder="parent@example.com" [class.is-invalid]="error('parentEmail')" />
+                @if (error('parentEmail'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+              </div>
+
+              <div class="fsu-vol-field">
+                <label for="vol-parentPhone">Parent / guardian phone <span class="fsu-vol-req">*</span></label>
+                <input id="vol-parentPhone" type="tel" formControlName="parentPhone" placeholder="(555) 123-4567" [class.is-invalid]="error('parentPhone')" />
+                @if (error('parentPhone'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+              </div>
+            }
+
+            <div class="fsu-vol-field">
+              <label for="vol-phone">Phone @if (!isStudent()) { <span class="fsu-vol-req">*</span> }</label>
+              <input id="vol-phone" type="tel" formControlName="phone" placeholder="(555) 123-4567" autocomplete="tel" [class.is-invalid]="error('phone')" />
+              @if (error('phone'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+            </div>
+          </div>
+
+          <fieldset class="fsu-vol-group">
+            <legend>Areas of interest</legend>
+            <div class="fsu-vol-chips">
+              @for (o of interestOptions; track o.value) {
+                <label class="fsu-vol-chip" [class.is-on]="form.controls.interests.value.includes(o.value)">
+                  <input type="checkbox" [checked]="form.controls.interests.value.includes(o.value)" (change)="toggle('interests', o.value, $any($event.target).checked)" />
+                  <span>{{ o.label }}</span>
+                </label>
+              }
+            </div>
+          </fieldset>
+
+          <fieldset class="fsu-vol-group">
+            <legend>Availability on event day</legend>
+            <div class="fsu-vol-chips">
+              @for (o of availabilityOptions; track o.value) {
+                <label class="fsu-vol-chip" [class.is-on]="form.controls.availability.value.includes(o.value)">
+                  <input type="checkbox" [checked]="form.controls.availability.value.includes(o.value)" (change)="toggle('availability', o.value, $any($event.target).checked)" />
+                  <span>{{ o.label }}</span>
+                </label>
+              }
+            </div>
+          </fieldset>
+
+          <div class="fsu-vol-field fsu-vol-field-full">
+            <label for="vol-notes">Anything we should know?</label>
+            <textarea id="vol-notes" rows="3" formControlName="notes" placeholder="Skills, languages, prior volunteering, questions (optional)" [class.is-invalid]="error('notes')"></textarea>
+            @if (error('notes'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+          </div>
+
+          <div class="fsu-vol-hp" aria-hidden="true">
+            <label for="vol-website">Website</label>
+            <input id="vol-website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="fsu-vol-terms" tabindex="0" aria-label="Disclaimer and waiver">
+            <h4>{{ disclaimer.title }}</h4>
+            <p>{{ disclaimer.intro }}</p>
+            @for (s of disclaimer.sections; track s.heading) {
+              <p><strong>{{ s.heading }}:</strong><br />{{ s.body }}</p>
+            }
+            <p><em>{{ disclaimer.closing }}</em></p>
+          </div>
+
+          <label class="fsu-vol-agree" [class.is-invalid]="error('disclaimerAccepted')">
+            <input type="checkbox" formControlName="disclaimerAccepted" />
+            <span>I have read and agree to the disclaimer and waiver.</span>
+          </label>
+          @if (error('disclaimerAccepted'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+
+          @if (errorMessage()) {
+            <div class="fsu-vol-alert" role="alert">{{ errorMessage() }}</div>
+          }
+
+          <div class="fsu-vol-actions">
+            <button type="submit" class="fsu-vol-btn" [disabled]="status() === 'submitting'">
+              {{ status() === 'submitting' ? 'Submitting…' : 'Register as volunteer' }}
+              <span class="fsu-vol-arrow">→</span>
+            </button>
+          </div>
+        </form>
+      }
+    </div>
+  </div>
+</section>

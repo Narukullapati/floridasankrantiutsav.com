@@ -1,0 +1,64 @@
+{
+  "version": "2026-11-11",
+  "title": "Student & Parent Registration Disclaimer / Waiver",
+  "intro": "Please read this notice carefully before registering.",
+  "sections": [
+    {
+      "heading": "1. Nature of the Group",
+      "body": "This student volunteer network is an informal, community-driven peer group created solely for educational and community service purposes. It is not a registered 501(c)(3) non-profit organization, corporation, LLC, or formal legal entity."
+    },
+    {
+      "heading": "2. Purpose of the Platform",
+      "body": "The purpose of this website and associated WhatsApp group is strictly to help students discover and connect with local volunteer opportunities, educational events, and community service projects. We act purely as a bulletin board and communication facilitator."
+    },
+    {
+      "heading": "3. Minor Students & Verified Parental Consent",
+      "body": "If the registering student is a minor (under the age of 18), this registration must be authorized by a parent or legal guardian. After a student registers, Student Hub emails a verification link to the parent/guardian email address on file; the parent or legal guardian must review these terms and confirm consent through that link before the student may sign up for volunteer activities. Providing a false parent/guardian email, or consenting on a parent's behalf without authority, invalidates the consent."
+    },
+    {
+      "heading": "4. Assumption of Risk & Safety",
+      "body": "Volunteer activities may involve physical activity, interaction with the public, travel to third-party locations, and other inherent risks of injury or loss. Parents/guardians voluntarily assume, on behalf of themselves and the minor student, all risks associated with participation and are responsible for supervising their minor children and for evaluating the safety, suitability, and legitimacy of any external event, organization, or location. The organizers do not vet, certify, conduct background checks on, or endorse any third-party event host, and make no representation regarding the safety or legitimacy of any listed opportunity."
+    },
+    {
+      "heading": "5. Volunteer Activities & Liability Waiver",
+      "body": "Participation in any volunteer opportunity posted through this network is entirely voluntary. To the fullest extent permitted by applicable law, the registrant — and the parent/legal guardian on behalf of the minor student — releases, waives, and discharges the organizers of this group, its volunteers, and administrators from any and all liability, claims, demands, or causes of action for accidents, injuries, losses, or damages incurred by students or parents arising out of or relating to any volunteer activity, whether occurring on-site, off-site, or in transit."
+    },
+    {
+      "heading": "6. Emergency Medical Authorization",
+      "body": "In the event of a medical emergency during a volunteer activity where the parent/guardian cannot be reached, the parent/guardian authorizes event staff or emergency personnel to secure emergency medical, dental, or hospital care for the student, and agrees to be solely responsible for all associated costs. Parents/guardians agree to keep the emergency contact information on file current."
+    },
+    {
+      "heading": "7. Transportation",
+      "body": "Student Hub does not provide or arrange transportation to or from any volunteer activity. Parents/guardians are solely responsible for the student's safe drop-off and pick-up. Any carpool or ride-sharing arrangement is a private, voluntary agreement between families or drivers, undertaken entirely at their own risk."
+    },
+    {
+      "heading": "8. Third-Party Events & Additional Requirements",
+      "body": "Events listed on this platform are operated by independent third-party hosts. Those hosts may require their own waivers, consent forms, background checks, or rules of conduct, which are solely between the participant and the host. Student Hub is not a party to, and assumes no responsibility for, any third-party requirements, policies, or event operations."
+    },
+    {
+      "heading": "9. Media & Promotional Consent",
+      "body": "By participating in group activities and events, students and parents grant permission for photographs, videos, and media capturing student participation to be taken and used for promotional, marketing, and informational purposes across social media platforms, websites, and community newsletters. If you do not accept this media policy, please do not register, or choose to unsubscribe/leave the group."
+    },
+    {
+      "heading": "10. Data & Privacy",
+      "body": "Information collected during registration (such as student names, school details, consent records, and technical metadata like IP address at the time of acceptance) is used solely for the internal organization of group activities and consent verification, and will not be sold, shared, or used for commercial purposes."
+    },
+    {
+      "heading": "11. Indemnification",
+      "body": "To the fullest extent permitted by applicable law, the parent/legal guardian agrees to indemnify, defend, and hold harmless the organizers of this group from and against any and all claims, damages, losses, and expenses (including reasonable attorney's fees) arising out of or relating to the student's participation in volunteer activities, the student's conduct, or any breach of these terms."
+    },
+    {
+      "heading": "12. Governing Law & Venue",
+      "body": "These terms are governed by the laws of the State of Florida, without regard to conflict-of-laws principles. Any dispute arising out of or relating to these terms or participation in group activities shall be brought exclusively in the state or federal courts located in the State of Florida, and the parties consent to the personal jurisdiction of those courts."
+    },
+    {
+      "heading": "13. Severability & Entire Agreement",
+      "body": "If any provision of this waiver is held invalid or unenforceable, the remaining provisions continue in full force and effect. This document constitutes the entire agreement between the registrant (and the parent/legal guardian of a minor) and the organizers regarding participation in this network."
+    },
+    {
+      "heading": "14. Text Message Consent",
+      "body": "By providing a phone number, you consent to receive event-related text messages from Student Hub — msg & data rates may apply, msg frequency varies. Reply STOP to opt out."
+    }
+  ],
+  "closing": "By checking the box below or submitting this registration, you acknowledge that you (and your parent/legal guardian, if you are a minor) have read, understood, and agreed to these terms."
+}
