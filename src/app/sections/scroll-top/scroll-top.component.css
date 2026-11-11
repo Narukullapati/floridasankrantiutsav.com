@@ -1,0 +1,110 @@
+/* Button Wrapper */
+  .stt-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(255, 122, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9998; /* Header ke niche ya barabar safely rahega */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(25px) scale(0.85);
+    transition: 
+      opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0.35s,
+      box-shadow 0.25s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Active Class (Jab user scroll karega) */
+  .stt-wrapper.stt-is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Hover Animations */
+  .stt-wrapper:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(255, 122, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .stt-wrapper:active {
+    transform: translateY(0) scale(0.95);
+  }
+
+  /* SVG Progress Ring */
+  .stt-progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transform: rotate(-90deg); /* Top se fill hona shuru ho */
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .stt-progress-circle-bg {
+    fill: none;
+    stroke: #f1f5f9;
+    stroke-width: 3.5;
+  }
+
+  .stt-progress-circle {
+    fill: none;
+    stroke: #ff7a00; /* Aapke brand ka orange color */
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-dasharray: 125.66; /* 2 * PI * 20 */
+    stroke-dashoffset: 125.66;
+    transition: stroke-dashoffset 0.1s linear;
+  }
+
+  /* Icon Box & Arrow */
+  .stt-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .stt-arrow-icon {
+    width: 20px;
+    height: 20px;
+    color: #0f172a;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+  }
+
+  /* Hover par Arrow ka upar bounce animation */
+  .stt-wrapper:hover .stt-arrow-icon {
+    color: #ff7a00;
+    transform: translateY(-3px);
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 768px) {
+    .stt-wrapper {
+      bottom: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+    }
+    .stt-progress-ring {
+      width: 44px;
+      height: 44px;
+    }
+    .stt-arrow-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }

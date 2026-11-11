@@ -1,0 +1,76 @@
+<header class="hdr-custom-header">
+  <div class="hdr-container">
+    <div class="hdr-logo">
+      <a href="/" title="Home" class="hdr-logo-link">
+        <img 
+          src="images/Brand-Logo-Header.png" 
+          alt="Site Logo" 
+          class="hdr-logo-img"
+          loading="eager"
+        />
+      </a>
+    </div>
+    <button class="hdr-toggle" id="hdrToggleBtn" aria-label="Menu Toggle" [class.is-active]="menuOpen()" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="hdr-nav" id="hdrNavMenu" [class.is-open]="menuOpen()">
+      <ul class="hdr-menu">
+        <li><a href="/" class="hdr-link">Home</a></li>
+        <li><a href="https://floridasankrantiutsav.square.site/#YNY5HN4FEMR2J5AD2PJIFAYQ" class="hdr-link">Registration</a></li>
+      </ul>
+      <div class="hdr-mobile-btns">
+        <button type="button" class="hdr-btn hdr-btn-trial hdr-contact-trigger" (click)="openModal($event)">
+          <span>Contact</span>
+          <svg class="hdr-arrow" viewBox="0 0 16 16" fill="none">
+            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <div class="hdr-actions">
+      <button type="button" class="hdr-btn hdr-btn-trial hdr-contact-trigger" (click)="openModal($event)">
+        <span>Contact</span>
+        <svg class="hdr-arrow" viewBox="0 0 16 16" fill="none">
+          <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="hdr-modal-overlay" id="hdrEmailModal" [class.is-active]="modalOpen()" [attr.aria-hidden]="!modalOpen()" (click)="onOverlayClick($event)">
+  <div class="hdr-modal-card">
+    <button class="hdr-modal-close" id="hdrModalClose" aria-label="Close Modal" (click)="closeModal()">&times;</button>
+    <div class="hdr-modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ff7a00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    </div>
+    <h3 class="hdr-modal-title">Contact Us</h3>
+    <p class="hdr-modal-sub">Have any questions or need assistance? Reach out to us at:</p>
+    <div class="hdr-email-box">
+      <svg class="hdr-mail-sm" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      </svg>
+      <a href="mailto:info@floridasankrantiutsav.com" class="hdr-email-text" id="hdrEmailAddress">info&#64;floridasankrantiutsav.com</a>
+    </div>
+    <div class="hdr-modal-actions">
+      <button type="button" class="hdr-btn-copy" id="hdrCopyBtn" [class.is-copied]="copied()" (click)="copyEmail()">
+        <svg class="hdr-copy-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span id="hdrCopyText">{{ copied() ? 'Copied! ✓' : 'Copy Email' }}</span>
+      </button>
+      <a href="mailto:info@floridasankrantiutsav.com" class="hdr-btn-send">
+        <span>Send Mail</span>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

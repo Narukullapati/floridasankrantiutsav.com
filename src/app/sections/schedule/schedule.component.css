@@ -1,0 +1,414 @@
+/* FONTS IMPORT */
+  
+
+  /* 1. Main Section & Container */
+  .fsu-reg-section {
+    width: 100% !important;
+    background-color: #ffffff !important;
+    padding: 25px 20px 70px 20px !important;
+    box-sizing: border-box !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+  .fsu-reg-container {
+    max-width: 1240px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. Top Pill Badge */
+  .fsu-reg-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #edf3fb !important;
+    padding: 6px 16px !important;
+    border-radius: 50px !important;
+    margin-bottom: 16px !important;
+  }
+  .fsu-reg-dot {
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #f97316 !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+  }
+  .fsu-reg-badge-text {
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.2px !important;
+    color: #4b6282 !important;
+    text-transform: uppercase !important;
+  }
+
+  /* 3. Main Heading & Subtitle */
+  .fsu-reg-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: clamp(28px, 3.6vw, 46px) !important;
+    font-weight: 800 !important;
+    color: #0d2847 !important;
+    line-height: 1.2 !important;
+    margin: 0 0 12px 0 !important;
+    letter-spacing: -0.5px !important;
+  }
+  .fsu-reg-orange {
+    color: #f97316 !important;
+  }
+  .fsu-reg-subtitle {
+    font-size: clamp(14px, 1.2vw, 16px) !important;
+    color: #556987 !important;
+    max-width: 650px !important;
+    margin: 0 auto 18px auto !important;
+    line-height: 1.6 !important;
+  }
+
+  /* 4. Sun Divider */
+  .fsu-reg-divider {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    max-width: 160px !important;
+    margin: 0 auto 34px auto !important;
+  }
+  .fsu-reg-line {
+    flex: 1 !important;
+    height: 1px !important;
+    background: #fed7aa !important;
+  }
+  .fsu-reg-sun {
+    color: #f97316 !important;
+    font-size: 18px !important;
+  }
+
+  /* 5. Top Grid */
+  .fsu-reg-top-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 26px !important;
+    margin-bottom: 40px !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+
+  .fsu-reg-details-col {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    gap: 18px !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Event Details Card */
+  .fsu-reg-card-white {
+    background-color: #ffffff !important;
+    border: 1px solid #e9eef5 !important;
+    border-radius: 20px !important;
+    padding: 24px 28px !important;
+    box-shadow: 0 6px 25px rgba(15, 23, 42, 0.05) !important;
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+  }
+  .fsu-reg-label-tag {
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.8px !important;
+    color: #7d8ea5 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 12px !important;
+    display: block !important;
+  }
+  .fsu-reg-card-divider {
+    height: 1px !important;
+    background-color: #eef2f6 !important;
+    margin-bottom: 14px !important;
+  }
+  .fsu-reg-info-list {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+    flex-grow: 1 !important;
+  }
+  .fsu-reg-info-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    padding: 8px 0 !important;
+  }
+  .fsu-reg-icon-box {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+  }
+  .fsu-reg-icon-box svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .fsu-reg-icon-blue { background-color: #e0f2fe !important; }
+  .fsu-reg-icon-orange { background-color: #ffedd5 !important; }
+
+  .fsu-reg-info-text {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+  }
+  .fsu-reg-info-lbl {
+    font-size: 12px !important;
+    color: #7b8ea7 !important;
+    font-weight: 500 !important;
+  }
+  .fsu-reg-info-val {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 15px !important;
+    color: #0e2b4d !important;
+    font-weight: 700 !important;
+  }
+  .fsu-reg-item-divider {
+    height: 1px !important;
+    background-color: #f1f5f9 !important;
+  }
+
+  /* 2 Pill Buttons (Event Schedule & Register Now) */
+  .fsu-reg-buttons-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+  }
+  .fsu-reg-top-pill {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 14px 10px 10px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    transition: all 0.25s ease !important;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+  }
+
+  /* Normal Colors */
+  .fsu-reg-pill-mint {
+    background-color: #ebf7ee !important;
+    border: 1px solid #d4eedb !important;
+  }
+  .fsu-reg-pill-peach {
+    background-color: #fdf3e7 !important;
+    border: 1px solid #fde4cc !important;
+  }
+
+  /* Hover Colors: Darker Tint */
+  .fsu-reg-pill-mint:hover {
+    background-color: #d7f1dd !important;
+    border-color: #b8e4c3 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(22, 163, 74, 0.12) !important;
+  }
+  .fsu-reg-pill-peach:hover {
+    background-color: #fde6cd !important;
+    border-color: #fed0a4 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(234, 88, 12, 0.12) !important;
+  }
+
+  .fsu-reg-pill-icon {
+    width: 38px !important;
+    height: 38px !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  }
+  .fsu-reg-pill-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+    display: block !important;
+  }
+
+  .fsu-reg-pill-text {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #0e2b4d !important;
+    letter-spacing: 0.3px !important;
+    margin: 0 10px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Arrow Circle: Hamesha pure white */
+  .fsu-reg-pill-arrow {
+    width: 28px !important;
+    height: 28px !important;
+    background-color: #ffffff !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13px !important;
+    color: #4b6282 !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease !important;
+  }
+  .fsu-reg-top-pill:hover .fsu-reg-pill-arrow {
+    background-color: #ffffff !important;
+    color: #0e2b4d !important;
+    transform: translateX(3px) !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Right Image Column */
+  .fsu-reg-image-col {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .fsu-reg-featured-frame {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 350px !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07) !important;
+    display: flex !important;
+  }
+  .fsu-reg-featured-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    transition: transform 0.5s ease !important;
+  }
+  .fsu-reg-featured-frame:hover .fsu-reg-featured-img {
+    transform: scale(1.03) !important;
+  }
+
+  /* 6. Continuous Auto-Slider (Marquee) */
+  .fsu-slider-wrapper {
+    width: 100% !important;
+    overflow: hidden !important;
+    position: relative !important;
+    padding: 10px 0 !important;
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%) !important;
+  }
+  .fsu-slider-track {
+    display: flex !important;
+    gap: 16px !important;
+    width: max-content !important;
+    animation: fsuMarqueeScroll 28s linear infinite !important;
+  }
+  .fsu-slider-track:hover {
+    animation-play-state: paused !important;
+  }
+
+  @keyframes fsuMarqueeScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-50% - 8px));
+    }
+  }
+
+  /* Slider Pill Buttons */
+  .fsu-slide-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 9px 24px 9px 10px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    cursor: pointer !important;
+  }
+  .fsu-slide-pill:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1) !important;
+  }
+
+  .fsu-slide-icon-circle {
+    width: 38px !important;
+    height: 38px !important;
+    background: #ffffff !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+    flex-shrink: 0 !important;
+  }
+  .fsu-slide-icon-circle svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .fsu-slide-label {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    color: #1a365d !important;
+    letter-spacing: 0.2px !important;
+  }
+
+  /* Slider Color Themes */
+  .fsu-slide-amber {
+    background-color: #fdf5ea !important;
+    border: 1px solid #f9e3c5 !important;
+  }
+  .fsu-slide-sky {
+    background-color: #edf7fc !important;
+    border: 1px solid #d5ebf7 !important;
+  }
+  .fsu-slide-rose {
+    background-color: #fdf0f2 !important;
+    border: 1px solid #fcd2d8 !important;
+  }
+  .fsu-slide-indigo {
+    background-color: #eef2fa !important;
+    border: 1px solid #d7e0f4 !important;
+  }
+  .fsu-slide-emerald {
+    background-color: #ebf8f1 !important;
+    border: 1px solid #cfeedd !important;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 900px) {
+    .fsu-reg-top-grid {
+      grid-template-columns: 1fr !important;
+      gap: 20px !important;
+    }
+    .fsu-reg-featured-frame {
+      min-height: 280px !important;
+      height: 300px !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .fsu-reg-buttons-row {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+    }
+    .fsu-reg-top-pill {
+      padding: 10px 16px !important;
+    }
+    .fsu-slider-track {
+      animation-duration: 22s !important;
+    }
+  }

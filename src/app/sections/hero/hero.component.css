@@ -1,0 +1,144 @@
+/* MAIN HERO SECTION (FULL HEIGHT, CRISP IMAGE) */
+  .fsu-hero-section {
+    position: relative !important;
+    width: 100% !important;
+    min-height: clamp(700px, 56vw, 920px) !important;
+    box-sizing: border-box !important;
+    background-image: url('/images/Untitled-5.jpg') !important;
+    background-size: 100% 100% !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-color: #e0f2fe !important;
+    
+    /* HD Quality */
+    image-rendering: -webkit-optimize-contrast !important;
+    image-rendering: high-quality !important;
+    overflow: hidden !important;
+  }
+
+  /* BUTTONS CONTAINER: EXACT CENTER (81%) OF THE BLANK SPACE */
+  .fsu-hero-buttons {
+    position: absolute !important;
+    /* Text aur Flower ke theek center me (Equal space top & bottom) */
+    top: 80.5% !important; 
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    width: 90% !important;
+    max-width: 600px !important;
+    z-index: 20 !important;
+  }
+
+  /* 1. TICKETS BUTTON (ORANGE PILL) */
+  .fsu-btn-tickets {
+    font-family: 'Inter', sans-serif !important;
+    font-size: clamp(14px, 1.2vw, 15.5px) !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background-color: #ea580c !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    padding: 12px 30px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 14px rgba(234, 88, 12, 0.45) !important;
+    transition: all 0.25s ease !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+  }
+  .fsu-btn-tickets:hover {
+    background-color: #c2410c !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(234, 88, 12, 0.55) !important;
+  }
+  .fsu-arrow-icon {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  /* 2. EXPLORE EVENT BUTTON (WHITE PILL) */
+  .fsu-btn-explore {
+    font-family: 'Inter', sans-serif !important;
+    font-size: clamp(14px, 1.2vw, 15.5px) !important;
+    font-weight: 700 !important;
+    color: #ea580c !important;
+    background-color: #ffffff !important;
+    border: 1.5px solid #fdba74 !important;
+    border-radius: 9999px !important;
+    padding: 11px 28px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.25s ease !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+  }
+  .fsu-btn-explore:hover {
+    background-color: #fffaf5 !important;
+    border-color: #ea580c !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 14px rgba(234, 88, 12, 0.2) !important;
+  }
+  .fsu-compass-svg {
+    width: 18px !important;
+    height: 18px !important;
+    color: #ea580c !important;
+  }
+
+  /* RESPONSIVE: TABLET & MOBILE */
+  @media (max-width: 900px) {
+    .fsu-hero-section {
+      min-height: 540px !important;
+    }
+    .fsu-hero-buttons {
+      top: 81% !important;
+      gap: 12px !important;
+    }
+    .fsu-btn-tickets, 
+    .fsu-btn-explore {
+      padding: 10px 20px !important;
+      font-size: 13px !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .fsu-hero-section {
+      min-height: 420px !important;
+    }
+    .fsu-hero-buttons {
+      top: 81% !important;
+      gap: 8px !important;
+    }
+    .fsu-btn-tickets, 
+    .fsu-btn-explore {
+      padding: 8px 14px !important;
+      font-size: 12px !important;
+    }
+    .fsu-arrow-icon,
+    .fsu-compass-svg {
+      width: 14px !important;
+      height: 14px !important;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .fsu-hero-section {
+      min-height: 350px !important;
+    }
+    .fsu-hero-buttons {
+      top: 81.5% !important;
+      gap: 6px !important;
+    }
+    .fsu-btn-tickets, 
+    .fsu-btn-explore {
+      padding: 6px 10px !important;
+      font-size: 11px !important;
+    }
+  }

@@ -1,0 +1,14 @@
+services:
+  floridasankrantiutsav:
+    build: .
+    image: floridasankrantiutsav-dev:latest
+    container_name: floridasankrantiutsav-dev
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.floridasankrantiutsav-dev.loadbalancer.server.port=80
+      - traefik.http.routers.floridasankrantiutsav-dev.rule=Host(`${SITE_HOST:-dev.floridasankrantiutsav.com}`)
+      - traefik.http.routers.floridasankrantiutsav-dev.entrypoints=websecure
+      - traefik.http.routers.floridasankrantiutsav-dev.tls=true
+      - traefik.http.routers.floridasankrantiutsav-dev.tls.certresolver=letsencrypt
+      - traefik.http.routers.floridasankrantiutsav-dev.service=floridasankrantiutsav-dev

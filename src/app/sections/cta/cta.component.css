@@ -1,0 +1,139 @@
+/* GOOGLE FONTS IMPORT */
+  
+
+  /* 1. Main Section & 1300px Container */
+  .fsu-cta-section {
+    width: 100% !important;
+    background-color: # !important;
+    padding: 8px 20px !important;
+    box-sizing: border-box !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+  .fsu-cta-container {
+    max-width: 1300px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. Gradient Banner Card */
+  .fsu-cta-card {
+    width: 100% !important;
+    background: linear-gradient(115deg, #ff4d00 0%, #ff7a00 45%, #ffad1f 100%) !important;
+    border-radius: 28px !important;
+    padding: 50px 30px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 20px 50px rgba(255, 90, 0, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  /* 3. Top Pill Badge */
+  .fsu-cta-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    padding: 6px 18px !important;
+    border-radius: 50px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  }
+  .fsu-cta-dot {
+    width: 7px !important;
+    height: 7px !important;
+    background-color: #ffffff !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+  }
+  .fsu-cta-badge-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.2px !important;
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+  }
+
+  /* 4. Main Heading (Font: Manrope) */
+  .fsu-cta-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: clamp(32px, 4.2vw, 46px) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    line-height: 1.15 !important;
+    margin: 0 0 16px 0 !important;
+    letter-spacing: -0.5px !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* 5. Description Paragraph (Font: Inter) */
+  .fsu-cta-desc {
+    font-family: 'Inter', sans-serif !important;
+    font-size: clamp(14.5px, 1.3vw, 16.5px) !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    line-height: 1.65 !important;
+    max-width: 720px !important;
+    margin: 0 auto 24px auto !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* 7. White CTA Button */
+  .fsu-cta-btn-wrap {
+    margin-bottom: 0 !important;
+  }
+  .fsu-cta-button {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0d2847 !important; /* Deep Navy */
+    background-color: #ffffff !important;
+    padding: 13px 32px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease !important;
+    cursor: pointer !important;
+  }
+  .fsu-cta-arrow {
+    font-size: 17px !important;
+    transition: transform 0.25s ease !important;
+  }
+  .fsu-cta-button:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22) !important;
+    color: #ff5e14 !important; /* Hover text shifts to orange */
+  }
+  .fsu-cta-button:hover .fsu-cta-arrow {
+    transform: translateX(4px) !important;
+  }
+
+  /* ================= 9. RESPONSIVE DESIGN ================= */
+  @media (max-width: 768px) {
+    .fsu-cta-section {
+      padding: 50px 18px 70px 18px !important;
+    }
+    .fsu-cta-card {
+      border-radius: 22px !important;
+      padding: 45px 20px 38px 20px !important;
+    }
+.fsu-cta-button {
+      width: 100% !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+    }
+  }
+.fsu-cta-quote-text {
+      font-size: 12px !important;
+    }

@@ -1,0 +1,470 @@
+/* 1. Google Font Import (Manrope) */
+  
+
+  /* Header Wrapper (NO BORDER LINE) */
+  .hdr-custom-header {
+    width: 100%;
+    background-color: #ffffff;
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    font-family: 'Manrope', sans-serif;
+  }
+
+  /* 2. Strict 1300px Max-Width */
+  .hdr-container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  /* 3. CRYSTAL CLEAR HD LOGO FIX */
+  .hdr-logo {
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .hdr-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .hdr-logo-img {
+    height: 70px; 
+    width: auto;
+    max-height: 70px;
+    display: block;
+    object-fit: contain;
+    filter: none !important;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: none;
+    transition: transform 0.25s ease;
+  }
+
+  .hdr-logo-img:hover {
+    transform: scale(1.03);
+  }
+
+  /* Navigation Links - Perfect Center on Desktop */
+  .hdr-nav {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .hdr-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 36px;
+  }
+
+  .hdr-link {
+    position: relative;
+    text-decoration: none;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 6px 0;
+    transition: color 0.25s ease;
+  }
+
+  /* Hover Animated Underline */
+  .hdr-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #ff7a00;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .hdr-link:hover {
+    color: #0f172a;
+  }
+
+  .hdr-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Buttons Styling & Arrow Animations */
+  .hdr-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 2;
+  }
+
+  .hdr-btn {
+    font-family: 'Manrope', sans-serif;
+    text-decoration: none;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    box-sizing: border-box;
+    line-height: 1.2;
+    border: none;
+  }
+
+  /* Arrow SVG Icon */
+  .hdr-arrow {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.25s ease;
+  }
+
+  .hdr-btn:hover .hdr-arrow {
+    transform: translateX(4px);
+  }
+
+  .hdr-btn:active {
+    transform: scale(0.97) !important;
+  }
+
+  /* Orange Contact Button */
+  .hdr-btn-trial {
+    color: #ffffff;
+    background-color: #ff7a00;
+    border: 1px solid #ff7a00;
+    box-shadow: 0 2px 6px rgba(255, 122, 0, 0.25);
+  }
+
+  .hdr-btn-trial:hover {
+    background-color: #e86e00;
+    border-color: #e86e00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 122, 0, 0.38);
+  }
+
+  /* Mobile Hamburger Icon */
+  .hdr-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 3;
+  }
+
+  .hdr-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #1e293b;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Animated Hamburger to 'X' */
+  .hdr-toggle.is-active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hdr-toggle.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hdr-toggle.is-active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .hdr-mobile-btns {
+    display: none;
+  }
+
+  /* ================= EMAIL POPUP MODAL STYLES ================= */
+  .hdr-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .hdr-modal-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hdr-modal-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 32px 28px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+    position: relative;
+    transform: translateY(20px) scale(0.96);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+    font-family: 'Manrope', sans-serif;
+  }
+
+  .hdr-modal-overlay.is-active .hdr-modal-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .hdr-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: #f1f5f9;
+    border: none;
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    line-height: 1;
+    transition: all 0.2s ease;
+  }
+
+  .hdr-modal-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .hdr-modal-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background-color: #fff7ed;
+    border: 1px solid #ffedd5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .hdr-modal-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .hdr-modal-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+  }
+
+  .hdr-modal-sub {
+    font-size: 13.5px;
+    color: #64748b;
+    margin: 0 0 20px 0;
+    line-height: 1.45;
+  }
+
+  /* Email Box */
+  .hdr-email-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #fff8f0;
+    border: 1.5px dashed #fdba74;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 22px;
+  }
+
+  .hdr-mail-sm {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .hdr-email-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #c2410c;
+    text-decoration: none;
+    word-break: break-all;
+    transition: color 0.2s ease;
+  }
+
+  .hdr-email-text:hover {
+    color: #ea580c;
+    text-decoration: underline;
+  }
+
+  /* Modal Buttons */
+  .hdr-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .hdr-btn-copy, .hdr-btn-send {
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .hdr-btn-copy {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+  }
+
+  .hdr-btn-copy:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .hdr-copy-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hdr-btn-send {
+    background-color: #ff7a00;
+    border: 1px solid #ff7a00;
+    color: #ffffff;
+  }
+
+  .hdr-btn-send:hover {
+    background-color: #ea6e00;
+  }
+
+  .hdr-btn-send svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ================= MOBILE RESPONSIVE ================= */
+  @media (max-width: 880px) {
+    .hdr-logo-img {
+      height: 60px;
+      max-height: 60px;
+    }
+
+    .hdr-actions {
+      display: none;
+    }
+
+    .hdr-toggle {
+      display: flex;
+    }
+
+    /* Mobile Dropdown */
+    .hdr-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      transform: none;
+      width: 100%;
+      background: #ffffff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.35s ease, visibility 0.35s;
+    }
+
+    .hdr-nav.is-open {
+      max-height: 300px;
+      opacity: 1;
+      visibility: visible;
+      padding: 20px 24px 28px 24px;
+    }
+
+    .hdr-menu {
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .hdr-mobile-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .hdr-mobile-btns .hdr-btn {
+      width: 100%;
+      text-align: center;
+      padding: 12px 20px;
+    }
+
+    .hdr-modal-card {
+      padding: 26px 20px;
+    }
+
+    .hdr-email-text {
+      font-size: 13.5px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .hdr-modal-actions {
+      grid-template-columns: 1fr;
+    }
+  }
+
+.hdr-btn-copy.is-copied {
+  background-color: #dcfce7 !important;
+  border-color: #86efac !important;
+  color: #15803d !important;
+}

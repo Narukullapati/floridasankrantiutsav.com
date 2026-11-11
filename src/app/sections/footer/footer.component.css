@@ -1,0 +1,229 @@
+.fsu-ftr {
+  background-color: #f8fafc;
+}
+
+.fsu-ftr-main {
+  padding: 100px 0 60px;
+}
+
+.fsu-ftr-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.fsu-ftr .fsu-ftr-col > * + *,
+.fsu-ftr .fsu-ftr-inner > * + * {
+  margin-top: 20px;
+}
+
+.fsu-ftr-links .fsu-ftr-inner {
+  width: 246px;
+  margin-left: auto;
+}
+
+.fsu-ftr-details .fsu-ftr-inner {
+  width: 277px;
+  margin-left: auto;
+}
+
+.fsu-ftr-logo {
+  display: block;
+}
+
+.fsu-ftr-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fsu-ftr p {
+  margin: 0;
+}
+
+.fsu-ftr-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.65;
+  color: #e86e00;
+}
+
+.fsu-ftr-about {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #64748b;
+}
+
+.fsu-ftr-social {
+  display: flex;
+  gap: 13px;
+  line-height: 0;
+}
+
+.fsu-ftr-social-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 10%;
+  background-color: #64748b;
+  transition: background-color 0.3s;
+}
+
+.fsu-ftr-social-icon:hover {
+  background-color: #e86e00;
+}
+
+.fsu-ftr-social-icon svg {
+  width: 12px;
+  height: 12px;
+  fill: #ffffff;
+}
+
+.fsu-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.fsu-ftr-organized {
+  padding: 2px 0 26px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #64748b;
+}
+
+.fsu-ftr-title {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #334155;
+}
+
+.fsu-ftr-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fsu-ftr-list li {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.fsu-ftr-list li + li {
+  margin-top: 8px;
+}
+
+.fsu-ftr-list a {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #64748b;
+  transition: color 0.3s;
+}
+
+.fsu-ftr-list a:hover {
+  color: #e86e00;
+}
+
+.fsu-ftr .fsu-ftr-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #9ca3af;
+}
+
+.fsu-ftr .fsu-ftr-inner > .fsu-ftr-label + .fsu-ftr-value {
+  margin-top: 8px;
+}
+
+.fsu-ftr .fsu-ftr-inner > .fsu-ftr-value + .fsu-ftr-label {
+  margin-top: 13px;
+}
+
+.fsu-ftr-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.65;
+  color: #334155;
+}
+
+.fsu-ftr-value-tight {
+  line-height: 17px;
+}
+
+.fsu-ftr-value a {
+  color: inherit;
+}
+
+.fsu-ftr-bottom {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.65;
+  color: #64748b;
+}
+
+.fsu-ftr-bottom p {
+  margin-bottom: 4px;
+}
+
+.fsu-ftr-copy-mobile {
+  display: none;
+}
+
+.fsu-ftr-bottom a {
+  color: inherit;
+}
+
+@media (max-width: 767px) {
+  .fsu-ftr-main {
+    padding: 80px 25px 70px;
+  }
+
+  .fsu-ftr-container {
+    grid-template-columns: 1fr;
+  }
+
+  .fsu-ftr-links,
+  .fsu-ftr-details {
+    padding-top: 20px;
+  }
+
+  .fsu-ftr-links .fsu-ftr-inner,
+  .fsu-ftr-details .fsu-ftr-inner {
+    width: auto;
+    margin-left: 0;
+  }
+
+  .fsu-ftr-organized {
+    padding-bottom: 0;
+  }
+
+  .fsu-ftr-copy-desktop {
+    display: none;
+  }
+
+  .fsu-ftr-copy-mobile {
+    display: block;
+  }
+}

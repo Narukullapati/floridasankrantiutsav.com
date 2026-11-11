@@ -1,0 +1,11 @@
+<div class="stt-wrapper" id="sttScrollTopBtn" [class.stt-is-visible]="visible()" (click)="toTop()" title="Back to Top" aria-label="Scroll To Top">
+  <svg class="stt-progress-ring" viewBox="0 0 48 48">
+    <circle class="stt-progress-circle-bg" cx="24" cy="24" r="20"></circle>
+    <circle class="stt-progress-circle" id="sttProgressCircle" [style.stroke-dashoffset]="dashOffset()" cx="24" cy="24" r="20"></circle>
+  </svg>
+  <div class="stt-icon-box">
+    <svg class="stt-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </div>
+</div>

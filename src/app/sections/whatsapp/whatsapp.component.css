@@ -1,0 +1,55 @@
+/* Fixed to Bottom-Left Corner */
+  .fsu-only-wa-wrap {
+    position: fixed !important;
+    bottom: 22px !important;
+    left: 22px !important;
+    z-index: 999999 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Chota Rounded-Square (Squircle) Button */
+  .fsu-only-wa-btn {
+    width: 38px !important;
+    height: 38px !important;
+    background-color: #25D366 !important;
+    border-radius: 9px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4) !important;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease !important;
+    cursor: pointer !important;
+  }
+
+  .fsu-only-wa-btn:hover {
+    transform: scale(1.08) !important;
+    background-color: #20ba5a !important;
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.55) !important;
+  }
+
+  /* SVG Icon Inside */
+  .fsu-only-wa-svg {
+    width: 24px !important;
+    height: 24px !important;
+    display: block !important;
+  }
+
+  /* Mobile Screen Adjustment */
+  @media (max-width: 600px) {
+    .fsu-only-wa-wrap {
+      bottom: 16px !important;
+      left: 16px !important;
+    }
+    .fsu-only-wa-btn {
+      width: 34px !important;
+      height: 34px !important;
+      border-radius: 8px !important;
+    }
+    .fsu-only-wa-svg {
+      width: 21px !important;
+      height: 21px !important;
+    }
+  }

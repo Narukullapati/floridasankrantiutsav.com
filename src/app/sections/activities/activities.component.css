@@ -1,0 +1,204 @@
+/* GOOGLE FONTS IMPORT */
+  
+
+  /* 1. Main Section & 1300px Container */
+  .fsu-act-section {
+    width: 100% !important;
+    background-color: # !important;
+    padding: 7px 24px 95px 24px !important;
+    box-sizing: border-box !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+  .fsu-act-container {
+    max-width: 1300px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. Top Pill Badge */
+  .fsu-act-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #edf3fb !important;
+    padding: 6px 16px !important;
+    border-radius: 50px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  }
+  .fsu-act-dot {
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #f97316 !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+  }
+  .fsu-act-badge-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.2px !important;
+    color: #4b6282 !important;
+    text-transform: uppercase !important;
+  }
+
+  /* 3. Main Heading (Plus Jakarta Sans: Navy + Orange) */
+  .fsu-act-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: clamp(32px, 3.8vw, 50px) !important;
+    font-weight: 800 !important;
+    color: #0d2847 !important;
+    line-height: 1.2 !important;
+    margin: 0 0 14px 0 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  /* Orange Accent Text */
+  .fsu-act-orange {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: #f97316 !important;
+  }
+
+  .fsu-act-subtitle {
+    font-family: 'Inter', sans-serif !important;
+    font-size: clamp(14.5px, 1.2vw, 16px) !important;
+    color: #556987 !important;
+    max-width: 650px !important;
+    margin: 0 auto 24px auto !important;
+    line-height: 1.6 !important;
+  }
+
+  /* 4. Sun Divider */
+  .fsu-act-divider {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    max-width: 160px !important;
+    margin: 0 auto 45px auto !important;
+  }
+  .fsu-act-line {
+    flex: 1 !important;
+    height: 1px !important;
+    background: #fed7aa !important;
+  }
+  .fsu-act-sun {
+    color: #f97316 !important;
+    font-size: 18px !important;
+  }
+
+  /* 5. Six Activities Grid (3 Columns) */
+  .fsu-act-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 26px !important;
+    margin-bottom: 0 !important;
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  .fsu-act-card {
+    background-color: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 16px !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
+    border: 1px solid #f1f5f9 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    box-sizing: border-box !important;
+  }
+  .fsu-act-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1) !important;
+  }
+
+  /* Card Image Wrapper */
+  .fsu-act-img-wrap {
+    width: 100% !important;
+    height: 205px !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    background-color: #e9f0f8 !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Card Image Top Alignment (No Top Cut) */
+  .fsu-act-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    display: block !important;
+    image-rendering: -webkit-optimize-contrast !important;
+    transition: transform 0.45s ease !important;
+  }
+
+  .fsu-act-card:hover .fsu-act-img {
+    transform: scale(1.05) !important;
+  }
+
+  .fsu-act-content {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+    padding: 0 4px 6px 4px !important;
+  }
+
+  /* Activity Tag Badge */
+  .fsu-act-tag {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    color: #ea580c !important;
+    background-color: #fff7ed !important;
+    padding: 4px 12px !important;
+    border-radius: 50px !important;
+    display: inline-block !important;
+    align-self: flex-start !important;
+    margin-bottom: 12px !important;
+    border: 1px solid #ffedd5 !important;
+  }
+
+  /* Card Title (Manrope) */
+  .fsu-act-card-title {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 17.5px !important;
+    font-weight: 700 !important;
+    color: #0d2847 !important;
+    margin: 0 0 8px 0 !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Card Description (Inter) */
+  .fsu-act-desc {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+    color: #556987 !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+
+  /* 6. Responsive Styles (Tablet & Mobile) */
+  @media (max-width: 1024px) {
+    .fsu-act-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .fsu-act-section {
+      padding: 60px 18px 70px 18px !important;
+    }
+    .fsu-act-grid {
+      grid-template-columns: 1fr !important;
+      gap: 18px !important;
+    }
+    .fsu-act-img-wrap {
+      height: 210px !important;
+    }
+  }
