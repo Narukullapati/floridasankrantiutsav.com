@@ -18,4 +18,4 @@ npm run build      # output in dist/floridasankrantiutsav/browser
 docker compose up -d --build
 ```
 
-The container serves the built site with Nginx on port 80; Traefik routes `dev.floridasankrantiutsav.com` to it with a Let's Encrypt certificate. Override the hostname with `SITE_HOST=...`.
+The container serves the built site with Nginx on port 80; Traefik routes `dev.floridasankrantiutsav.com` to it with a Let's Encrypt certificate. To serve other hostnames, set `SITE_RULE` in a `.env` file to a Traefik rule such as ``Host(`example.com`) || Host(`www.example.com`)``.
