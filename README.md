@@ -24,6 +24,8 @@ npm test
 
 Endpoints: `POST /api/volunteers`, `GET /api/health`, parent consent pages at `/api/volunteers/consent/:token`, and admin endpoints under `/api/admin` (login, volunteer list, delete, CSV export) protected by `ADMIN_USER`/`ADMIN_PASSWORD`. Student registrations email the parent/guardian a consent link when SMTP is configured.
 
+Volunteers sign the disclaimer (typed name + drawn signature); students' parents/guardians sign on the consent page. Each registration gets a signed PDF (`api/src/pdf.js`) stored in MySQL (`consent_pdf`) at sign-up and regenerated when the parent/guardian signs; once consent is complete it is also emailed (when SMTP is configured) to the volunteer (and parent/guardian for students), BCC `CONSENT_PDF_BCC` (default `Suman.injeti@gmail.com`). Admins can view, download or re-send the PDF from the volunteer list/detail view (`GET /api/admin/volunteers/:id/consent.pdf`, `POST /api/admin/volunteers/:id/consent-email`).
+
 ## Deploy (VPS, Docker + Traefik)
 
 ```bash

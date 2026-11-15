@@ -27,6 +27,13 @@ export interface Volunteer {
   parentConsentAt: string | null;
   parentConsentIp: string | null;
   createdAt: string;
+  signatureName: string | null;
+  hasSignature: boolean;
+  parentSignatureName: string | null;
+  hasParentSignature: boolean;
+  consentPdfSentAt: string | null;
+  hasPdf: boolean;
+  consentPdfGeneratedAt: string | null;
 }
 
 const BASE = '/api/admin';
@@ -51,6 +58,14 @@ export class AdminService {
 
   volunteers(): Observable<{ volunteers: Volunteer[] }> {
     return this.http.get<{ volunteers: Volunteer[] }>(`${BASE}/volunteers`);
+  }
+
+  consentPdfUrl(id: number, download = false): string {
+    return `${BASE}/volunteers/${id}/consent.pdf${download ? '?download=1' : ''}`;
+  }
+
+  emailConsentPdf(id: number): Observable<void> {
+    return this.http.post<void>(`${BASE}/volunteers/${id}/consent-email`, {});
   }
 
   remove(id: number): Observable<void> {

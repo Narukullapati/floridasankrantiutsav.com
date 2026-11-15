@@ -1,4 +1,5 @@
 const { disclaimer, options } = require('./shared');
+const { parseSignatureImage, parseSignatureName } = require('./signature');
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const ACCOUNT_TYPES = new Set(options.accountTypes.map((o) => o.value));
@@ -69,6 +70,11 @@ function validateRegistration(body) {
     errors.disclaimerVersion = 'The disclaimer has been updated. Please reload the page and review it again.';
   }
 
+  const signatureName = parseSignatureName(b.signatureName);
+  if (!signatureName) errors.signatureName = 'Type your full name to sign.';
+  const signaturePng = parseSignatureImage(b.signatureImage);
+  if (!signaturePng) errors.signatureImage = 'Please sign in the signature box.';
+
   return {
     errors,
     value: {
@@ -83,6 +89,8 @@ function validateRegistration(body) {
       interests: list(b.interests, INTERESTS),
       availability: list(b.availability, AVAILABILITY),
       notes: notes || null,
+      signatureName,
+      signaturePng,
     },
   };
 }

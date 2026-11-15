@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { validateRegistration } = require('../src/validate');
 const { disclaimer } = require('../src/shared');
+const { sampleDataUrl } = require('./helpers');
 
 const base = {
   firstName: 'Anu',
@@ -9,6 +10,8 @@ const base = {
   email: 'Anu@Example.com',
   disclaimerAccepted: true,
   disclaimerVersion: disclaimer.version,
+  signatureName: 'Anu Reddy',
+  signatureImage: sampleDataUrl(),
 };
 
 test('student requires parent email and phone', () => {
@@ -46,4 +49,10 @@ test('disclaimer must be accepted at the current version', () => {
 test('parent email must differ from student email', () => {
   const { errors } = validateRegistration({ ...base, accountType: 'student', parentEmail: 'anu@example.com', parentPhone: '8135559876' });
   assert.ok(errors.parentEmail);
+});
+
+test('signature name and drawn signature are required', () => {
+  const { errors } = validateRegistration({ ...base, accountType: 'volunteer', phone: '8135550100', signatureName: '', signatureImage: '' });
+  assert.ok(errors.signatureName);
+  assert.ok(errors.signatureImage);
 });

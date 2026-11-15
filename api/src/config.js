@@ -26,5 +26,7 @@ module.exports = {
     pass: env.SMTP_PASS || '',
     from: env.SMTP_FROM || 'Florida Sankranti Utsav <info@floridasankrantiutsav.com>',
   },
+  consentPdfBcc: (env.CONSENT_PDF_BCC ?? 'Suman.injeti@gmail.com')
+    .split(',').map((x) => x.trim()).filter(Boolean),
   sharedDir: env.SHARED_DIR || path.join(__dirname, '../../src/app/sections/volunteer'),
 };

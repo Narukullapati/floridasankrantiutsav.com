@@ -184,11 +184,11 @@
                       <tr>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Email</th>
-                        <th>Phone</th>
+                        <th>Contact</th>
                         <th>Parent / guardian</th>
                         <th>Consent</th>
                         <th>Registered</th>
+                        <th>PDF</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -196,8 +196,9 @@
                         <tr tabindex="0" (click)="open(v)" (keydown.enter)="open(v)">
                           <td data-label="Name"><strong>{{ fullName(v) }}</strong></td>
                           <td data-label="Type"><span class="adm-tag adm-tag-{{ v.accountType }}">{{ v.accountTypeLabel }}</span></td>
-                          <td data-label="Email">{{ v.email }}</td>
-                          <td data-label="Phone">{{ v.phone || '—' }}</td>
+                          <td data-label="Contact">
+                            <span class="adm-stack">{{ v.email }}@if (v.phone) { <small class="adm-muted">{{ v.phone }}</small> }</span>
+                          </td>
                           <td data-label="Parent">
                             @if (v.parentEmail) {
                               <span class="adm-stack">{{ v.parentEmail }}<small class="adm-muted">{{ v.parentPhone }}</small></span>
@@ -205,6 +206,11 @@
                           </td>
                           <td data-label="Consent"><span class="adm-badge adm-badge-{{ v.parentConsentStatus }}">{{ consentLabel(v.parentConsentStatus) }}</span></td>
                           <td data-label="Registered">{{ formatDate(v.createdAt, false) }}</td>
+                          <td data-label="Signed PDF" (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()">
+                            <a class="adm-pdf-link" [href]="consentPdfUrl(v)" target="_blank" rel="noopener" [attr.aria-label]="'View signed PDF for ' + fullName(v)">
+                              <fsu-admin-icon name="download" [size]="14" /> PDF
+                            </a>
+                          </td>
                         </tr>
                       }
                     </tbody>
@@ -268,7 +274,22 @@
               @if (v.parentConsentAt) {
                 <dt>Consent given</dt><dd>{{ formatDate(v.parentConsentAt) }} · {{ v.parentConsentIp || '—' }}</dd>
               }
+              <dt>Signed by</dt><dd>{{ v.signatureName || '—' }}@if (!v.hasSignature) { <span class="adm-muted"> (no drawn signature)</span> }</dd>
+              @if (v.accountType === 'student') {
+                <dt>Parent signed by</dt><dd>{{ v.parentSignatureName || '—' }}</dd>
+              }
+              <dt>PDF generated</dt><dd>{{ v.consentPdfGeneratedAt ? formatDate(v.consentPdfGeneratedAt) : 'Created when first opened' }}</dd>
+              <dt>PDF emailed</dt><dd>{{ v.consentPdfSentAt ? formatDate(v.consentPdfSentAt) : 'Not yet' }}</dd>
             </dl>
+            <div class="adm-pdf-actions">
+              <a class="adm-btn" [href]="consentPdfUrl(v)" target="_blank" rel="noopener">View signed PDF</a>
+              <a class="adm-btn" [href]="consentPdfUrl(v, true)">Download PDF</a>
+              <button type="button" class="adm-btn" (click)="emailPdf(v)" [disabled]="emailing() || !consentComplete(v)"
+                      [title]="consentComplete(v) ? '' : 'Parent/guardian consent is still pending'">
+                {{ emailing() ? 'Sending…' : 'Email PDF' }}
+              </button>
+              @if (emailNotice()) { <span class="adm-muted" role="status">{{ emailNotice() }}</span> }
+            </div>
           </div>
 
           <div class="adm-detail-actions">

@@ -36,10 +36,31 @@ CREATE TABLE IF NOT EXISTS volunteers (
   UNIQUE KEY uq_volunteers_consent_token (parent_consent_token)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`;
 
+const COLUMNS = {
+  signature_name: 'VARCHAR(160) NULL',
+  signature_png: 'MEDIUMBLOB NULL',
+  parent_signature_name: 'VARCHAR(160) NULL',
+  parent_signature_png: 'MEDIUMBLOB NULL',
+  consent_pdf_sent_at: 'DATETIME NULL',
+  consent_pdf: 'MEDIUMBLOB NULL',
+  consent_pdf_generated_at: 'DATETIME NULL',
+};
+
+async function addMissingColumns() {
+  const [rows] = await pool.query(
+    "SELECT COLUMN_NAME AS name FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'volunteers'",
+  );
+  const existing = new Set(rows.map((r) => r.name));
+  for (const [name, type] of Object.entries(COLUMNS)) {
+    if (!existing.has(name)) await pool.query(`ALTER TABLE volunteers ADD COLUMN ${name} ${type}`);
+  }
+}
+
 async function migrate({ retries = 30, delayMs = 2000 } = {}) {
   for (let attempt = 1; ; attempt++) {
     try {
       await pool.query(SCHEMA);
+      await addMissingColumns();
       return;
     } catch (err) {
       if (attempt >= retries) throw err;

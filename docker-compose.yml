@@ -47,6 +47,7 @@ services:
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
       SMTP_FROM: ${SMTP_FROM:-Florida Sankranti Utsav <info@floridasankrantiutsav.com>}
+      CONSENT_PDF_BCC: ${CONSENT_PDF_BCC:-Suman.injeti@gmail.com}
 
   db:
     image: mysql:8.4

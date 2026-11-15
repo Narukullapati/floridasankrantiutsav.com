@@ -16,6 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import disclaimer from './disclaimer.json';
 import options from './volunteer-options.json';
+import { SignaturePadComponent } from './signature-pad.component';
 import { VolunteerModalService } from './volunteer-modal.service';
 
 const HASH = '#volunteer';
@@ -39,7 +40,7 @@ function phoneValidator(control: AbstractControl): ValidationErrors | null {
 
 @Component({
   selector: 'fsu-volunteer',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SignaturePadComponent],
   templateUrl: './volunteer.component.html',
   styleUrl: './volunteer.component.css',
   encapsulation: ViewEncapsulation.None,
@@ -51,6 +52,7 @@ export class VolunteerComponent {
   readonly modal = inject(VolunteerModalService);
   private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private readonly body = viewChild<ElementRef<HTMLElement>>('body');
+  private readonly signaturePad = viewChild(SignaturePadComponent);
   private returnFocus: HTMLElement | null = null;
   private shown = false;
 
@@ -78,6 +80,8 @@ export class VolunteerComponent {
     availability: this.fb.control<string[]>([]),
     notes: ['', Validators.maxLength(1000)],
     disclaimerAccepted: [false, Validators.requiredTrue],
+    signatureName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(160)]],
+    signatureImage: ['', Validators.required],
     website: [''],
   });
 
@@ -171,10 +175,13 @@ export class VolunteerComponent {
     const e = control.errors;
     if (e['required']) {
       if (name === 'disclaimerAccepted') return 'You must agree to the disclaimer and waiver.';
+      if (name === 'signatureName') return 'Type your full name to sign.';
+      if (name === 'signatureImage') return 'Please sign in the signature box.';
       return name.toLowerCase().includes('phone') ? 'Phone number is required.' : 'This field is required.';
     }
     if (e['email']) return 'Enter a valid email address.';
     if (e['phone']) return 'Enter a valid phone number.';
+    if (e['minlength']) return `Must be at least ${e['minlength'].requiredLength} characters.`;
     if (e['maxlength']) return `Must be ${e['maxlength'].requiredLength} characters or fewer.`;
     return 'Please check this field.';
   }
@@ -221,8 +228,15 @@ export class VolunteerComponent {
     setTimeout(() => this.dialog()?.nativeElement.querySelector<HTMLElement>('.is-invalid')?.focus());
   }
 
+  onSigned(dataUrl: string | null): void {
+    const control = this.form.controls.signatureImage;
+    control.setValue(dataUrl ?? '');
+    control.markAsTouched();
+  }
+
   reset(): void {
     this.form.reset();
+    this.signaturePad()?.clear();
     this.submitted.set(false);
     this.serverErrors.set({});
     this.errorMessage.set('');

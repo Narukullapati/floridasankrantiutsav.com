@@ -250,3 +250,7 @@ h1, h2, h3 { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; margin: 0; c
   .adm-dl { grid-template-columns: 1fr; gap: 2px; }
   .adm-dl dd { margin-bottom: 10px; }
 }
+
+.adm-pdf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
+.adm-pdf-link { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px; background: #fff1e6; color: #c2410c; font-weight: 700; font-size: 12.5px; text-decoration: none; white-space: nowrap; }
+.adm-pdf-link:hover { background: #ffe1c7; }

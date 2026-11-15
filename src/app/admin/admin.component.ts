@@ -82,6 +82,8 @@ export class AdminComponent implements OnInit {
   readonly loadError = signal('');
   readonly selected = signal<Volunteer | null>(null);
   readonly deleting = signal(false);
+  readonly emailing = signal(false);
+  readonly emailNotice = signal('');
 
   readonly nav = NAV;
   readonly view = signal<View>('home');
@@ -197,7 +199,35 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  consentPdfUrl(v: Volunteer, download = false): string {
+    return this.api.consentPdfUrl(v.id, download);
+  }
+
+  consentComplete(v: Volunteer): boolean {
+    return v.accountType !== 'student' || v.parentConsentStatus === 'confirmed';
+  }
+
+  emailPdf(v: Volunteer): void {
+    this.emailing.set(true);
+    this.emailNotice.set('');
+    this.api.emailConsentPdf(v.id).subscribe({
+      next: () => {
+        this.emailing.set(false);
+        this.emailNotice.set('Signed PDF emailed.');
+        const sentAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        this.volunteers.update((list) => list.map((x) => (x.id === v.id ? { ...x, consentPdfSentAt: sentAt } : x)));
+        this.selected.update((x) => (x && x.id === v.id ? { ...x, consentPdfSentAt: sentAt } : x));
+      },
+      error: (err: HttpErrorResponse) => {
+        this.emailing.set(false);
+        if (err.status === 401) return this.handleError(err, '');
+        this.emailNotice.set(err.error?.message ?? 'Could not email the PDF.');
+      },
+    });
+  }
+
   open(v: Volunteer): void {
+    this.emailNotice.set('');
     this.selected.set(v);
   }
 
