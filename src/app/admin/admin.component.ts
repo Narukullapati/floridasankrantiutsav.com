@@ -37,22 +37,14 @@ export interface NavGroup {
 
 const NAV: NavGroup[] = [
   {
-    key: 'volunteers',
-    label: 'Volunteers',
+    key: 'registrations',
+    label: 'Registrations',
     links: [
-      { key: 'all', label: 'All volunteers', hint: 'Every registration', icon: 'users', tone: 'indigo', stat: 'total' },
-      { key: 'student', label: 'Students', hint: 'Student volunteers', icon: 'student', tone: 'blue', stat: 'students', type: 'student' },
-      { key: 'parent', label: 'Parents', hint: 'Parent volunteers', icon: 'parent', tone: 'teal', stat: 'parents', type: 'parent' },
-      { key: 'volunteer', label: 'Community', hint: 'Community volunteers', icon: 'heart', tone: 'rose', stat: 'community', type: 'volunteer' },
-    ],
-  },
-  {
-    key: 'consent',
-    label: 'Parent consent',
-    links: [
-      { key: 'pending', label: 'Consent pending', hint: 'Waiting on parent/guardian', icon: 'clock', tone: 'orange', stat: 'pending', consent: 'pending' },
-      { key: 'confirmed', label: 'Consent confirmed', hint: 'Parent/guardian approved', icon: 'check', tone: 'green', stat: 'confirmed', consent: 'confirmed' },
-      { key: 'not_required', label: 'Not required', hint: 'Adult volunteers', icon: 'minus', tone: 'slate', stat: 'notRequired', consent: 'not_required' },
+      { key: 'volunteers', label: 'Volunteers', hint: 'Every volunteer registration', icon: 'users', tone: 'indigo', stat: 'total' },
+      { key: 'vendors', label: 'Vendors', hint: 'Vendor registrations', icon: 'store', tone: 'teal', type: 'vendor' },
+      { key: 'performances', label: 'Performances', hint: 'Performance registrations', icon: 'mic', tone: 'orange', type: 'performance' },
+      { key: 'fashion_show', label: 'Fashion show', hint: 'Fashion show registrations', icon: 'shirt', tone: 'rose', type: 'fashion_show' },
+      { key: 'sponsors', label: 'Sponsors', hint: 'Sponsor registrations', icon: 'award', tone: 'green', type: 'sponsor' },
     ],
   },
 ];
@@ -280,7 +272,9 @@ export class AdminComponent implements OnInit {
   }
 
   statFor(link: NavLink): number {
-    return link.stat ? this.stats()[link.stat] : 0;
+    if (link.stat) return this.stats()[link.stat];
+    if (link.type) return this.volunteers().filter((v) => v.accountType === link.type).length;
+    return 0;
   }
 
   syncActiveFromFilters(): void {
@@ -288,7 +282,7 @@ export class AdminComponent implements OnInit {
     const consent = this.consentFilter();
     const match = this.nav.flatMap((g) => g.links)
       .find((l) => (l.type ?? '') === type && (l.consent ?? '') === consent);
-    this.activeKey.set(match?.key ?? 'all');
+    this.activeKey.set(match?.key ?? 'volunteers');
   }
 
   closeNavOnMobile(): void {
@@ -299,7 +293,7 @@ export class AdminComponent implements OnInit {
     this.query.set('');
     this.typeFilter.set('');
     this.consentFilter.set('');
-    this.activeKey.set('all');
+    this.activeKey.set('volunteers');
   }
 
   fullName(v: Volunteer): string {

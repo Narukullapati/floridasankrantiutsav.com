@@ -77,12 +77,6 @@
             <span>Account</span><span aria-hidden="true">{{ collapsed().has('account') ? '+' : '–' }}</span>
           </button>
           @if (!collapsed().has('account')) {
-            <a class="adm-nav-item" [href]="csvUrl" download>
-              <fsu-admin-icon name="download" /><span class="adm-nav-text"><span>Download CSV</span></span>
-            </a>
-            <button type="button" class="adm-nav-item" (click)="load()" [disabled]="loading()">
-              <fsu-admin-icon name="refresh" /><span class="adm-nav-text"><span>{{ loading() ? 'Refreshing…' : 'Refresh data' }}</span></span>
-            </button>
             <button type="button" class="adm-nav-item" (click)="signOut()">
               <fsu-admin-icon name="logout" /><span class="adm-nav-text"><span>Sign out</span></span>
             </button>
@@ -160,6 +154,10 @@
                   <option value="student">Students</option>
                   <option value="parent">Parents</option>
                   <option value="volunteer">Community volunteers</option>
+                  <option value="vendor">Vendors</option>
+                  <option value="performance">Performances</option>
+                  <option value="fashion_show">Fashion show</option>
+                  <option value="sponsor">Sponsors</option>
                 </select>
                 <select aria-label="Parent consent" [value]="consentFilter()" (change)="consentFilter.set($any($event.target).value); syncActiveFromFilters()">
                   <option value="">Any consent</option>
@@ -168,6 +166,9 @@
                   <option value="not_required">Consent not required</option>
                 </select>
                 <a class="adm-btn adm-btn-primary" [href]="csvUrl" download><fsu-admin-icon name="download" [size]="16" /> CSV</a>
+                <button type="button" class="adm-btn" (click)="load()" [disabled]="loading()">
+                  <fsu-admin-icon name="refresh" [size]="16" /> {{ loading() ? 'Refreshing…' : 'Refresh' }}
+                </button>
               </div>
 
               <p class="adm-count">

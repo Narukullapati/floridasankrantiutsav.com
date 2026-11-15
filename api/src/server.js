@@ -1,4 +1,6 @@
 const crypto = require('node:crypto');
+const fs = require('node:fs');
+const path = require('node:path');
 const express = require('express');
 const { rateLimit } = require('express-rate-limit');
 const config = require('./config');
@@ -226,9 +228,37 @@ app.post('/api/volunteers/consent/:token', async (req, res, next) => {
   }
 });
 
+const isAdminHost = (hostname) =>
+  (hostname || '').startsWith('admin.') || ['localhost', '127.0.0.1'].includes(hostname);
+
+app.use('/api/admin', (req, res, next) => {
+  if (!isAdminHost(req.hostname)) return res.status(404).json({ message: 'Not found.' });
+  res.set('X-Robots-Tag', 'noindex, nofollow');
+  next();
+});
 app.use('/api/admin', adminRouter);
 
 app.use('/api', (_req, res) => res.status(404).json({ message: 'Not found.' }));
+
+const staticDir = fs.existsSync(path.join(config.staticDir, 'index.html')) ? config.staticDir : null;
+if (staticDir) {
+  app.use(express.static(staticDir, {
+    index: false,
+    setHeaders(res, filePath) {
+      if (/\.(?:js|css)$/.test(filePath)) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      } else if (filePath.startsWith(path.join(staticDir, 'images') + path.sep)) {
+        res.setHeader('Cache-Control', 'public, max-age=2592000');
+      }
+    },
+  }));
+  app.use((req, res, next) => {
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+    res.setHeader('Cache-Control', 'no-cache');
+    if (isAdminHost(req.hostname)) res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    res.sendFile(path.join(staticDir, 'index.html'));
+  });
+}
 
 app.use((err, _req, res, _next) => {
   if (err.type === 'entity.parse.failed') return res.status(400).json({ message: 'Invalid request body.' });

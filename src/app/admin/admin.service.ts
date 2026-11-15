@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export type AccountType = 'student' | 'parent' | 'volunteer';
+export type AccountType =
+  | 'student' | 'parent' | 'volunteer' | 'vendor' | 'performance' | 'fashion_show' | 'sponsor';
 export type ConsentStatus = 'not_required' | 'pending' | 'confirmed';
 
 export interface Volunteer {

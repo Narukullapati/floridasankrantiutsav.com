@@ -3,6 +3,7 @@ const config = require('./config');
 
 const pool = mysql.createPool({
   ...config.db,
+  host: config.db.host === 'localhost' ? '127.0.0.1' : config.db.host,
   waitForConnections: true,
   connectionLimit: 10,
   timezone: 'Z',

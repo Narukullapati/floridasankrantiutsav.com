@@ -29,4 +29,5 @@ module.exports = {
   consentPdfBcc: (env.CONSENT_PDF_BCC ?? 'Suman.injeti@gmail.com')
     .split(',').map((x) => x.trim()).filter(Boolean),
   sharedDir: env.SHARED_DIR || path.join(__dirname, '../../src/app/sections/volunteer'),
+  staticDir: env.STATIC_DIR || path.join(__dirname, '../../dist/floridasankrantiutsav/browser'),
 };
