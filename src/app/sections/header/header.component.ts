@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, ViewEncapsulation, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, ViewEncapsulation, inject, signal } from '@angular/core';
+import { VolunteerModalService } from '../volunteer/volunteer-modal.service';
 
 export const CONTACT_EMAIL = 'info@floridasankrantiutsav.com';
 
@@ -14,6 +15,12 @@ export class HeaderComponent implements OnDestroy {
   readonly modalOpen = signal(false);
   readonly copied = signal(false);
   private copyTimer?: ReturnType<typeof setTimeout>;
+  private readonly volunteerModal = inject(VolunteerModalService);
+
+  openVolunteer(event: Event): void {
+    this.menuOpen.set(false);
+    this.volunteerModal.open(event);
+  }
 
   toggleMenu(): void {
     this.menuOpen.update((open) => !open);

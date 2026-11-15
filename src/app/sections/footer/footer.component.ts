@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import { VolunteerModalService } from '../volunteer/volunteer-modal.service';
 
 @Component({
   selector: 'fsu-footer',
@@ -9,4 +10,5 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 })
 export class FooterComponent {
   readonly year = new Date().getFullYear();
+  readonly volunteerModal = inject(VolunteerModalService);
 }

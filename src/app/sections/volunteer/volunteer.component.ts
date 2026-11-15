@@ -1,9 +1,24 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  HostListener,
+  ViewEncapsulation,
+  afterNextRender,
+  effect,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import disclaimer from './disclaimer.json';
 import options from './volunteer-options.json';
+import { VolunteerModalService } from './volunteer-modal.service';
+
+const HASH = '#volunteer';
 
 type AccountType = 'student' | 'parent' | 'volunteer';
 type Status = 'idle' | 'submitting' | 'success';
@@ -33,6 +48,11 @@ function phoneValidator(control: AbstractControl): ValidationErrors | null {
 export class VolunteerComponent {
   private readonly http = inject(HttpClient);
   private readonly fb = inject(FormBuilder).nonNullable;
+  readonly modal = inject(VolunteerModalService);
+  private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
+  private readonly body = viewChild<ElementRef<HTMLElement>>('body');
+  private returnFocus: HTMLElement | null = null;
+  private shown = false;
 
   readonly disclaimer = disclaimer;
   readonly accountTypes = options.accountTypes;
@@ -43,7 +63,7 @@ export class VolunteerComponent {
   readonly errorMessage = signal('');
   readonly serverErrors = signal<Record<string, string>>({});
   readonly submitted = signal(false);
-  readonly result = signal<{ name: string; parentEmail: string; student: boolean } | null>(null);
+  readonly result = signal<{ name: string; parentEmail: string; student: boolean; emailSent: boolean } | null>(null);
 
   readonly form = this.fb.group({
     accountType: this.fb.control<AccountType>('student', Validators.required),
@@ -66,11 +86,55 @@ export class VolunteerComponent {
   });
 
   constructor() {
+    effect(() => (this.modal.isOpen() ? this.showDialog() : this.hideDialog()));
+    afterNextRender(() => {
+      if (location.hash === HASH) this.modal.open();
+    });
+    inject(DestroyRef).onDestroy(() => document.documentElement.classList.remove('fsu-modal-open'));
     this.form.controls.accountType.valueChanges.subscribe((type) => this.applyAccountType(type));
     this.form.valueChanges.subscribe(() => {
       if (Object.keys(this.serverErrors()).length) this.serverErrors.set({});
       if (this.errorMessage() && this.form.valid) this.errorMessage.set('');
     });
+  }
+
+  @HostListener('window:hashchange')
+  onHashChange(): void {
+    if (location.hash === HASH) this.modal.open();
+  }
+
+  close(): void {
+    this.modal.close();
+  }
+
+  onDialogClick(event: MouseEvent): void {
+    if (event.target === this.dialog()?.nativeElement) this.close();
+  }
+
+  onDialogClose(): void {
+    this.modal.close();
+  }
+
+  private showDialog(): void {
+    const dialog = this.dialog()?.nativeElement;
+    if (!dialog || this.shown) return;
+    this.shown = true;
+    this.returnFocus = document.activeElement as HTMLElement | null;
+    document.documentElement.classList.add('fsu-modal-open');
+    dialog.showModal();
+    dialog.querySelector<HTMLElement>('select, input, button.fsu-vol-btn')?.focus();
+  }
+
+  private hideDialog(): void {
+    const dialog = this.dialog()?.nativeElement;
+    if (!dialog || !this.shown) return;
+    this.shown = false;
+    document.documentElement.classList.remove('fsu-modal-open');
+    if (location.hash === HASH) history.replaceState(null, '', location.pathname + location.search);
+    if (dialog.open) dialog.close();
+    if (this.status() === 'success') this.reset();
+    this.returnFocus?.focus();
+    this.returnFocus = null;
   }
 
   isStudent(): boolean {
@@ -121,7 +185,7 @@ export class VolunteerComponent {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.errorMessage.set('Please correct the highlighted fields.');
-      queueMicrotask(() => document.querySelector<HTMLElement>('.fsu-vol-form .is-invalid')?.focus());
+      this.focusFirstInvalid();
       return;
     }
 
@@ -136,10 +200,10 @@ export class VolunteerComponent {
         disclaimerVersion: disclaimer.version,
       })
       .subscribe({
-        next: () => {
-          this.result.set({ name: value.firstName, parentEmail: value.parentEmail, student });
+        next: (res) => {
+          const emailSent = !!(res as { emailSent?: boolean }).emailSent;
+          this.result.set({ name: value.firstName, parentEmail: value.parentEmail, student, emailSent });
           this.status.set('success');
-          document.getElementById('volunteer')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         },
         error: (err: HttpErrorResponse) => {
           const body = (err.error ?? {}) as ApiError;
@@ -148,8 +212,13 @@ export class VolunteerComponent {
             body.message ?? 'We could not submit your registration. Please check your connection and try again.',
           );
           this.status.set('idle');
+          this.focusFirstInvalid();
         },
       });
+  }
+
+  private focusFirstInvalid(): void {
+    setTimeout(() => this.dialog()?.nativeElement.querySelector<HTMLElement>('.is-invalid')?.focus());
   }
 
   reset(): void {
@@ -159,5 +228,6 @@ export class VolunteerComponent {
     this.errorMessage.set('');
     this.result.set(null);
     this.status.set('idle');
+    this.body()?.nativeElement.scrollTo({ top: 0 });
   }
 }
