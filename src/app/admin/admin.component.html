@@ -39,105 +39,187 @@
   }
 
   @case ('signedIn') {
-    <header class="adm-bar">
-      <div class="adm-bar-brand">
-        <img src="images/cropped-Fav-Icon-192x192.png" alt="" width="36" height="36">
-        <div>
-          <span class="adm-eyebrow">FLORIDA SANKRANTI UTSAV 2027</span>
-          <strong>Volunteer admin</strong>
+    <div class="adm-shell" [class.adm-nav-open]="navOpen()">
+      <aside class="adm-side" aria-label="Admin navigation">
+        <div class="adm-profile">
+          <img class="adm-avatar" src="images/cropped-Fav-Icon-192x192.png" alt="" width="48" height="48">
+          <div class="adm-profile-text">
+            <strong>Volunteer Admin</strong>
+            <span>Florida Sankranti Utsav</span>
+            <em class="adm-role">{{ user() }}</em>
+          </div>
+          <button type="button" class="adm-side-close" aria-label="Close menu" (click)="navOpen.set(false)">
+            <fsu-admin-icon name="close" />
+          </button>
         </div>
-      </div>
-      <div class="adm-bar-actions">
-        <span class="adm-user">{{ user() }}</span>
-        <button type="button" class="adm-btn adm-btn-ghost" (click)="signOut()">Sign out</button>
-      </div>
-    </header>
 
-    <main class="adm-main">
-      <section class="adm-stats" aria-label="Summary">
-        <div class="adm-stat"><span>Total</span><strong>{{ stats().total }}</strong></div>
-        <div class="adm-stat"><span>Students</span><strong>{{ stats().students }}</strong></div>
-        <div class="adm-stat"><span>Parents</span><strong>{{ stats().parents }}</strong></div>
-        <div class="adm-stat"><span>Community</span><strong>{{ stats().community }}</strong></div>
-        <div class="adm-stat adm-stat-warn"><span>Consent pending</span><strong>{{ stats().pending }}</strong></div>
-      </section>
+        <nav class="adm-nav">
+          <button type="button" class="adm-nav-item" [class.active]="activeKey() === 'home'" (click)="goHome()">
+            <fsu-admin-icon name="home" />
+            <span class="adm-nav-text"><span>Home</span><small><fsu-admin-icon name="heart" [size]="11" /> {{ stats().total }}</small></span>
+          </button>
 
-      <section class="adm-panel">
-        <div class="adm-toolbar">
-          <input type="search" class="adm-search" placeholder="Search name, email or phone"
-                 aria-label="Search volunteers"
-                 [value]="query()" (input)="query.set($any($event.target).value)">
-          <select aria-label="Account type" [value]="typeFilter()" (change)="typeFilter.set($any($event.target).value)">
-            <option value="">All types</option>
-            <option value="student">Students</option>
-            <option value="parent">Parents</option>
-            <option value="volunteer">Community volunteers</option>
-          </select>
-          <select aria-label="Parent consent" [value]="consentFilter()" (change)="consentFilter.set($any($event.target).value)">
-            <option value="">Any consent</option>
-            <option value="pending">Consent pending</option>
-            <option value="confirmed">Consent confirmed</option>
-            <option value="not_required">Consent not required</option>
-          </select>
-          <div class="adm-toolbar-end">
-            <button type="button" class="adm-btn adm-btn-ghost" (click)="load()" [disabled]="loading()">
-              {{ loading() ? 'Refreshing…' : 'Refresh' }}
+          @for (group of nav; track group.key) {
+            <button type="button" class="adm-nav-group" [attr.aria-expanded]="!collapsed().has(group.key)" (click)="toggleGroup(group.key)">
+              <span>{{ group.label }}</span><span aria-hidden="true">{{ collapsed().has(group.key) ? '+' : '–' }}</span>
             </button>
-            <a class="adm-btn adm-btn-primary" [href]="csvUrl" download>Download CSV</a>
-          </div>
+            @if (!collapsed().has(group.key)) {
+              @for (link of group.links; track link.key) {
+                <button type="button" class="adm-nav-item" [class.active]="activeKey() === link.key && view() === 'list'" (click)="show(link)">
+                  <fsu-admin-icon [name]="link.icon" />
+                  <span class="adm-nav-text"><span>{{ link.label }}</span><small><fsu-admin-icon name="heart" [size]="11" /> {{ statFor(link) }}</small></span>
+                </button>
+              }
+            }
+          }
+
+          <button type="button" class="adm-nav-group" [attr.aria-expanded]="!collapsed().has('account')" (click)="toggleGroup('account')">
+            <span>Account</span><span aria-hidden="true">{{ collapsed().has('account') ? '+' : '–' }}</span>
+          </button>
+          @if (!collapsed().has('account')) {
+            <a class="adm-nav-item" [href]="csvUrl" download>
+              <fsu-admin-icon name="download" /><span class="adm-nav-text"><span>Download CSV</span></span>
+            </a>
+            <button type="button" class="adm-nav-item" (click)="load()" [disabled]="loading()">
+              <fsu-admin-icon name="refresh" /><span class="adm-nav-text"><span>{{ loading() ? 'Refreshing…' : 'Refresh data' }}</span></span>
+            </button>
+            <button type="button" class="adm-nav-item" (click)="signOut()">
+              <fsu-admin-icon name="logout" /><span class="adm-nav-text"><span>Sign out</span></span>
+            </button>
+          }
+        </nav>
+      </aside>
+      <div class="adm-scrim" (click)="navOpen.set(false)"></div>
+
+      <div class="adm-content">
+        <div class="adm-notice" role="status">
+          <span class="adm-notice-tag"><fsu-admin-icon name="megaphone" [size]="14" /> NOTICE</span>
+          <div class="adm-notice-track"><span>{{ notice() }}</span></div>
         </div>
 
-        @if (loadError()) {
-          <p class="adm-alert" role="alert">{{ loadError() }}</p>
-        }
+        <header class="adm-top">
+          <button type="button" class="adm-menu" aria-label="Open menu" [attr.aria-expanded]="navOpen()" (click)="navOpen.set(!navOpen())">
+            <fsu-admin-icon name="menu" />
+          </button>
+          <fsu-admin-icon [name]="view() === 'home' ? 'home' : (activeLink()?.icon ?? 'users')" />
+          <h1>{{ pageTitle() }}</h1>
+        </header>
 
-        <p class="adm-count">
-          Showing {{ filtered().length }} of {{ volunteers().length }}
-          @if (query() || typeFilter() || consentFilter()) {
-            · <button type="button" class="adm-link" (click)="clearFilters()">Clear filters</button>
+        <main class="adm-main">
+          @if (loadError()) {
+            <p class="adm-alert" role="alert">{{ loadError() }}</p>
           }
-        </p>
 
-        @if (filtered().length) {
-          <div class="adm-table-wrap">
-            <table class="adm-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Parent / guardian</th>
-                  <th>Consent</th>
-                  <th>Registered</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (v of filtered(); track v.id) {
-                  <tr tabindex="0" (click)="open(v)" (keydown.enter)="open(v)">
-                    <td data-label="Name"><strong>{{ fullName(v) }}</strong></td>
-                    <td data-label="Type"><span class="adm-tag adm-tag-{{ v.accountType }}">{{ v.accountTypeLabel }}</span></td>
-                    <td data-label="Email">{{ v.email }}</td>
-                    <td data-label="Phone">{{ v.phone || '—' }}</td>
-                    <td data-label="Parent">
-                      @if (v.parentEmail) {
-                        {{ v.parentEmail }}<br><small class="adm-muted">{{ v.parentPhone }}</small>
-                      } @else { — }
-                    </td>
-                    <td data-label="Consent"><span class="adm-badge adm-badge-{{ v.parentConsentStatus }}">{{ consentLabel(v.parentConsentStatus) }}</span></td>
-                    <td data-label="Registered">{{ formatDate(v.createdAt, false) }}</td>
-                  </tr>
+          @if (view() === 'home') {
+            <section class="adm-welcome">
+              <h2>Welcome, {{ user() }}</h2>
+              <p>Everything you need to manage volunteers, in one place.</p>
+            </section>
+
+            @for (group of nav; track group.key) {
+              <section class="adm-tiles-group">
+                <h3>{{ group.label }}</h3>
+                <div class="adm-tiles">
+                  @for (link of group.links; track link.key) {
+                    <button type="button" class="adm-tile" (click)="show(link)">
+                      <span class="adm-tile-icon adm-tone-{{ link.tone }}"><fsu-admin-icon [name]="link.icon" /></span>
+                      <span class="adm-tile-count">{{ statFor(link) }}</span>
+                      <strong>{{ link.label }}</strong>
+                      <small>{{ link.hint }}</small>
+                    </button>
+                  }
+                </div>
+              </section>
+            }
+
+            <section class="adm-tiles-group">
+              <h3>Tools</h3>
+              <div class="adm-tiles">
+                <a class="adm-tile" [href]="csvUrl" download>
+                  <span class="adm-tile-icon adm-tone-teal"><fsu-admin-icon name="download" /></span>
+                  <strong>Download CSV</strong>
+                  <small>Spreadsheet of all registrations</small>
+                </a>
+                <button type="button" class="adm-tile" (click)="load()" [disabled]="loading()">
+                  <span class="adm-tile-icon adm-tone-indigo"><fsu-admin-icon name="refresh" /></span>
+                  <strong>{{ loading() ? 'Refreshing…' : 'Refresh data' }}</strong>
+                  <small>Load the latest registrations</small>
+                </button>
+              </div>
+            </section>
+          } @else {
+            <section class="adm-panel">
+              <div class="adm-toolbar">
+                <label class="adm-search">
+                  <fsu-admin-icon name="search" [size]="18" />
+                  <input type="search" placeholder="Search name, email or phone" aria-label="Search volunteers"
+                         [value]="query()" (input)="query.set($any($event.target).value)">
+                </label>
+                <select aria-label="Account type" [value]="typeFilter()" (change)="typeFilter.set($any($event.target).value); syncActiveFromFilters()">
+                  <option value="">All types</option>
+                  <option value="student">Students</option>
+                  <option value="parent">Parents</option>
+                  <option value="volunteer">Community volunteers</option>
+                </select>
+                <select aria-label="Parent consent" [value]="consentFilter()" (change)="consentFilter.set($any($event.target).value); syncActiveFromFilters()">
+                  <option value="">Any consent</option>
+                  <option value="pending">Consent pending</option>
+                  <option value="confirmed">Consent confirmed</option>
+                  <option value="not_required">Consent not required</option>
+                </select>
+                <a class="adm-btn adm-btn-primary" [href]="csvUrl" download><fsu-admin-icon name="download" [size]="16" /> CSV</a>
+              </div>
+
+              <p class="adm-count">
+                Showing {{ filtered().length }} of {{ volunteers().length }}
+                @if (query() || typeFilter() || consentFilter()) {
+                  · <button type="button" class="adm-link" (click)="clearFilters()">Clear filters</button>
                 }
-              </tbody>
-            </table>
-          </div>
-        } @else if (!loading()) {
-          <div class="adm-empty">
-            {{ volunteers().length ? 'No volunteers match these filters.' : 'No volunteers have registered yet.' }}
-          </div>
-        }
-      </section>
-    </main>
+              </p>
+
+              @if (filtered().length) {
+                <div class="adm-table-wrap">
+                  <table class="adm-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Parent / guardian</th>
+                        <th>Consent</th>
+                        <th>Registered</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (v of filtered(); track v.id) {
+                        <tr tabindex="0" (click)="open(v)" (keydown.enter)="open(v)">
+                          <td data-label="Name"><strong>{{ fullName(v) }}</strong></td>
+                          <td data-label="Type"><span class="adm-tag adm-tag-{{ v.accountType }}">{{ v.accountTypeLabel }}</span></td>
+                          <td data-label="Email">{{ v.email }}</td>
+                          <td data-label="Phone">{{ v.phone || '—' }}</td>
+                          <td data-label="Parent">
+                            @if (v.parentEmail) {
+                              <span class="adm-stack">{{ v.parentEmail }}<small class="adm-muted">{{ v.parentPhone }}</small></span>
+                            } @else { — }
+                          </td>
+                          <td data-label="Consent"><span class="adm-badge adm-badge-{{ v.parentConsentStatus }}">{{ consentLabel(v.parentConsentStatus) }}</span></td>
+                          <td data-label="Registered">{{ formatDate(v.createdAt, false) }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              } @else if (!loading()) {
+                <div class="adm-empty">
+                  {{ volunteers().length ? 'No volunteers match these filters.' : 'No volunteers have registered yet.' }}
+                </div>
+              }
+            </section>
+          }
+        </main>
+      </div>
+    </div>
 
     <dialog #dialog class="adm-dialog" aria-labelledby="adm-detail-title" (close)="close()" (click)="onDialogClick($event)">
       @if (selected(); as v) {

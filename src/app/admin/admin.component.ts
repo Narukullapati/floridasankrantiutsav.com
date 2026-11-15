@@ -11,15 +11,57 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AdminIcon, AdminIconComponent } from './admin-icon.component';
 import { AccountType, AdminService, ConsentStatus, Volunteer } from './admin.service';
 
 type AuthState = 'checking' | 'signedOut' | 'signedIn';
+type View = 'home' | 'list';
+type StatKey = 'total' | 'students' | 'parents' | 'community' | 'pending' | 'confirmed' | 'notRequired';
+
+export interface NavLink {
+  key: string;
+  label: string;
+  hint: string;
+  icon: AdminIcon;
+  tone: 'indigo' | 'teal' | 'orange' | 'rose' | 'blue' | 'green' | 'slate';
+  stat?: StatKey;
+  type?: AccountType;
+  consent?: ConsentStatus;
+}
+
+export interface NavGroup {
+  key: string;
+  label: string;
+  links: NavLink[];
+}
+
+const NAV: NavGroup[] = [
+  {
+    key: 'volunteers',
+    label: 'Volunteers',
+    links: [
+      { key: 'all', label: 'All volunteers', hint: 'Every registration', icon: 'users', tone: 'indigo', stat: 'total' },
+      { key: 'student', label: 'Students', hint: 'Student volunteers', icon: 'student', tone: 'blue', stat: 'students', type: 'student' },
+      { key: 'parent', label: 'Parents', hint: 'Parent volunteers', icon: 'parent', tone: 'teal', stat: 'parents', type: 'parent' },
+      { key: 'volunteer', label: 'Community', hint: 'Community volunteers', icon: 'heart', tone: 'rose', stat: 'community', type: 'volunteer' },
+    ],
+  },
+  {
+    key: 'consent',
+    label: 'Parent consent',
+    links: [
+      { key: 'pending', label: 'Consent pending', hint: 'Waiting on parent/guardian', icon: 'clock', tone: 'orange', stat: 'pending', consent: 'pending' },
+      { key: 'confirmed', label: 'Consent confirmed', hint: 'Parent/guardian approved', icon: 'check', tone: 'green', stat: 'confirmed', consent: 'confirmed' },
+      { key: 'not_required', label: 'Not required', hint: 'Adult volunteers', icon: 'minus', tone: 'slate', stat: 'notRequired', consent: 'not_required' },
+    ],
+  },
+];
 
 const TIME_ZONE = 'America/New_York';
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AdminIconComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +83,12 @@ export class AdminComponent implements OnInit {
   readonly selected = signal<Volunteer | null>(null);
   readonly deleting = signal(false);
 
+  readonly nav = NAV;
+  readonly view = signal<View>('home');
+  readonly activeKey = signal('home');
+  readonly navOpen = signal(typeof window === 'undefined' || window.innerWidth > 960);
+  readonly collapsed = signal<ReadonlySet<string>>(new Set());
+
   readonly query = signal('');
   readonly typeFilter = signal<AccountType | ''>('');
   readonly consentFilter = signal<ConsentStatus | ''>('');
@@ -59,7 +107,22 @@ export class AdminComponent implements OnInit {
       parents: count((v) => v.accountType === 'parent'),
       community: count((v) => v.accountType === 'volunteer'),
       pending: count((v) => v.parentConsentStatus === 'pending'),
+      confirmed: count((v) => v.parentConsentStatus === 'confirmed'),
+      notRequired: count((v) => v.parentConsentStatus === 'not_required'),
     };
+  });
+
+  readonly activeLink = computed(() =>
+    this.nav.flatMap((g) => g.links).find((l) => l.key === this.activeKey()) ?? null);
+
+  readonly pageTitle = computed(() => (this.view() === 'home' ? 'Home' : this.activeLink()?.label ?? 'Volunteers'));
+
+  readonly notice = computed(() => {
+    const { pending, total } = this.stats();
+    if (pending) {
+      return `${pending} student registration${pending === 1 ? ' is' : 's are'} waiting for parent/guardian consent — open "Consent pending" to follow up.`;
+    }
+    return `${total} volunteer registration${total === 1 ? '' : 's'} so far — no student registrations are waiting for parent consent.`;
   });
 
   readonly filtered = computed(() => {
@@ -162,10 +225,51 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  goHome(): void {
+    this.view.set('home');
+    this.activeKey.set('home');
+    this.closeNavOnMobile();
+  }
+
+  show(link: NavLink): void {
+    this.query.set('');
+    this.typeFilter.set(link.type ?? '');
+    this.consentFilter.set(link.consent ?? '');
+    this.activeKey.set(link.key);
+    this.view.set('list');
+    this.closeNavOnMobile();
+  }
+
+  toggleGroup(key: string): void {
+    this.collapsed.update((set) => {
+      const next = new Set(set);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }
+
+  statFor(link: NavLink): number {
+    return link.stat ? this.stats()[link.stat] : 0;
+  }
+
+  syncActiveFromFilters(): void {
+    const type = this.typeFilter();
+    const consent = this.consentFilter();
+    const match = this.nav.flatMap((g) => g.links)
+      .find((l) => (l.type ?? '') === type && (l.consent ?? '') === consent);
+    this.activeKey.set(match?.key ?? 'all');
+  }
+
+  closeNavOnMobile(): void {
+    if (window.innerWidth <= 960) this.navOpen.set(false);
+  }
+
   clearFilters(): void {
     this.query.set('');
     this.typeFilter.set('');
     this.consentFilter.set('');
+    this.activeKey.set('all');
   }
 
   fullName(v: Volunteer): string {
@@ -199,6 +303,8 @@ export class AdminComponent implements OnInit {
     this.close();
     this.volunteers.set([]);
     this.user.set('');
+    this.view.set('home');
+    this.activeKey.set('home');
     this.auth.set('signedOut');
   }
 
