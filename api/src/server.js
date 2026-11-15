@@ -5,8 +5,9 @@ const config = require('./config');
 const { pool, migrate } = require('./db');
 const mailer = require('./mailer');
 const { escape, page } = require('./html');
-const { disclaimer, options } = require('./shared');
+const { disclaimer } = require('./shared');
 const { validateRegistration } = require('./validate');
+const adminRouter = require('./admin');
 
 const app = express();
 app.set('trust proxy', /^\d+$/.test(config.trustProxy) ? Number(config.trustProxy) : config.trustProxy);
@@ -22,7 +23,6 @@ const registerLimiter = rateLimit({
   message: { message: 'Too many registrations from this network. Please try again later.' },
 });
 
-const labelFor = (list, value) => list.find((o) => o.value === value)?.label ?? value;
 const fullName = (v) => [v.first_name, v.middle_name, v.last_name].filter(Boolean).join(' ');
 const consentUrl = (token) => `${config.publicUrl}/api/volunteers/consent/${token}`;
 
@@ -168,53 +168,7 @@ app.post('/api/volunteers/consent/:token', async (req, res, next) => {
   }
 });
 
-function requireAdmin(req, res, next) {
-  if (!config.admin.password) return res.status(503).send('Admin access is not configured.');
-  const [scheme, encoded] = (req.get('authorization') || '').split(' ');
-  const [user, ...rest] = Buffer.from(encoded || '', 'base64').toString().split(':');
-  const pass = rest.join(':');
-  const hash = (s) => crypto.createHash('sha256').update(s).digest();
-  const ok =
-    scheme === 'Basic' &&
-    crypto.timingSafeEqual(hash(user), hash(config.admin.user)) &&
-    crypto.timingSafeEqual(hash(pass), hash(config.admin.password));
-  if (ok) return next();
-  res.set('WWW-Authenticate', 'Basic realm="FSU volunteers", charset="UTF-8"').status(401).send('Authentication required.');
-}
-
-const csvCell = (value) => {
-  let s = value == null ? '' : String(value);
-  if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
-  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-};
-
-const parseList = (value) => (Array.isArray(value) ? value : JSON.parse(value || '[]'));
-
-app.get('/api/admin/volunteers.csv', requireAdmin, async (_req, res, next) => {
-  try {
-    const [rows] = await pool.query('SELECT * FROM volunteers ORDER BY created_at, id');
-    const header = [
-      'ID', 'Registered (UTC)', 'Account type', 'First name', 'Middle name', 'Last name', 'Email', 'Phone',
-      'Parent email', 'Parent phone', 'Parent consent', 'Parent consent at (UTC)', 'Interests', 'Availability',
-      'Notes', 'Disclaimer version', 'Disclaimer accepted (UTC)', 'IP',
-    ];
-    const lines = rows.map((r) =>
-      [
-        r.id, r.created_at, labelFor(options.accountTypes, r.account_type), r.first_name, r.middle_name, r.last_name,
-        r.email, r.phone, r.parent_email, r.parent_phone, r.parent_consent_status, r.parent_consent_at,
-        parseList(r.interests).map((x) => labelFor(options.interests, x)).join('; '),
-        parseList(r.availability).map((x) => labelFor(options.availability, x)).join('; '),
-        r.notes, r.disclaimer_version, r.disclaimer_accepted_at, r.accepted_ip,
-      ].map(csvCell).join(','),
-    );
-    res
-      .type('text/csv')
-      .set('Content-Disposition', 'attachment; filename="fsu-volunteers.csv"')
-      .send([header.join(','), ...lines].join('\r\n') + '\r\n');
-  } catch (err) {
-    next(err);
-  }
-});
+app.use('/api/admin', adminRouter);
 
 app.use('/api', (_req, res) => res.status(404).json({ message: 'Not found.' }));
 

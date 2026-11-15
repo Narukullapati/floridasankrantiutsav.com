@@ -16,6 +16,7 @@ module.exports = {
   admin: {
     user: env.ADMIN_USER || 'admin',
     password: env.ADMIN_PASSWORD || '',
+    sessionSecret: env.ADMIN_SESSION_SECRET || '',
   },
   smtp: {
     host: env.SMTP_HOST || '',

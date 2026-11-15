@@ -14,6 +14,11 @@ services:
       - traefik.http.routers.floridasankrantiutsav-dev.tls=true
       - traefik.http.routers.floridasankrantiutsav-dev.tls.certresolver=letsencrypt
       - traefik.http.routers.floridasankrantiutsav-dev.service=floridasankrantiutsav-dev
+      - traefik.http.routers.floridasankrantiutsav-admin.rule=${ADMIN_RULE:-Host(`admin.floridasankrantiutsav.com`)}
+      - traefik.http.routers.floridasankrantiutsav-admin.entrypoints=websecure
+      - traefik.http.routers.floridasankrantiutsav-admin.tls=true
+      - traefik.http.routers.floridasankrantiutsav-admin.tls.certresolver=letsencrypt
+      - traefik.http.routers.floridasankrantiutsav-admin.service=floridasankrantiutsav-dev
 
   api:
     build:
@@ -35,6 +40,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
       ADMIN_USER: ${ADMIN_USER:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET:-}
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_SECURE: ${SMTP_SECURE:-false}
