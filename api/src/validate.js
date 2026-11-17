@@ -1,5 +1,4 @@
 const { disclaimer, options } = require('./shared');
-const { parseSignatureImage, parseSignatureName } = require('./signature');
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const ACCOUNT_TYPES = new Set(options.accountTypes.map((o) => o.value));
@@ -35,6 +34,7 @@ function validateRegistration(body) {
   const accountType = str(b.accountType);
   if (!ACCOUNT_TYPES.has(accountType)) errors.accountType = 'Choose an account type.';
   const isStudent = accountType === 'student';
+  const needsParent = isStudent;
 
   const firstName = str(b.firstName);
   const middleName = str(b.middleName);
@@ -50,13 +50,17 @@ function validateRegistration(body) {
 
   const phoneValue = phone(b.phone, 'phone', !isStudent, errors);
 
+  let parentName = null;
   let parentEmail = null;
   let parentPhone = null;
-  if (isStudent) {
+  if (needsParent) {
+    parentName = str(b.parentName);
+    if (!parentName) errors.parentName = 'Parent / guardian name is required.';
+    else if (parentName.length > 160) errors.parentName = 'Parent / guardian name is too long.';
     parentEmail = str(b.parentEmail).toLowerCase();
     if (!EMAIL_RE.test(parentEmail) || parentEmail.length > 254) {
       errors.parentEmail = 'Enter a valid parent / guardian email.';
-    } else if (parentEmail === email) {
+    } else if (isStudent && parentEmail === email) {
       errors.parentEmail = 'Parent / guardian email must be different from the student email.';
     }
     parentPhone = phone(b.parentPhone, 'parentPhone', true, errors);
@@ -70,10 +74,9 @@ function validateRegistration(body) {
     errors.disclaimerVersion = 'The disclaimer has been updated. Please reload the page and review it again.';
   }
 
-  const signatureName = parseSignatureName(b.signatureName);
-  if (!signatureName) errors.signatureName = 'Type your full name to sign.';
-  const signaturePng = parseSignatureImage(b.signatureImage);
-  if (!signaturePng) errors.signatureImage = 'Please sign in the signature box.';
+  // Digital signature = identity + consent captured server side (IP, user agent, timestamp).
+  const signatureName = (isStudent ? parentName : `${firstName} ${lastName}`.trim()) || null;
+  const signaturePng = null;
 
   return {
     errors,
@@ -84,6 +87,7 @@ function validateRegistration(body) {
       lastName,
       email,
       phone: phoneValue,
+      parentName,
       parentEmail,
       parentPhone,
       interests: list(b.interests, INTERESTS),

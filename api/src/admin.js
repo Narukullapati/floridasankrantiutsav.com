@@ -30,6 +30,7 @@ const toVolunteer = (r) => ({
   lastName: r.last_name,
   email: r.email,
   phone: r.phone,
+  parentName: r.parent_name,
   parentEmail: r.parent_email,
   parentPhone: r.parent_phone,
   interests: parseList(r.interests).map((x) => labelFor(options.interests, x)),
@@ -157,14 +158,14 @@ router.get('/volunteers.csv', async (_req, res, next) => {
     const rows = (await listVolunteers()).reverse();
     const header = [
       'ID', 'Registered (UTC)', 'Account type', 'First name', 'Middle name', 'Last name', 'Email', 'Phone',
-      'Parent email', 'Parent phone', 'Parent consent', 'Parent consent at (UTC)', 'Interests', 'Availability',
+      'Parent name', 'Parent email', 'Parent phone', 'Parent consent', 'Parent consent at (UTC)', 'Interests', 'Availability',
       'Notes', 'Disclaimer version', 'Disclaimer accepted (UTC)', 'IP', 'Signed by', 'Parent signed by',
       'Consent PDF generated (UTC)', 'Consent PDF emailed (UTC)',
     ];
     const lines = rows.map((v) =>
       [
         v.id, v.createdAt, v.accountTypeLabel, v.firstName, v.middleName, v.lastName, v.email, v.phone,
-        v.parentEmail, v.parentPhone, v.parentConsentStatus, v.parentConsentAt, v.interests.join('; '),
+        v.parentName, v.parentEmail, v.parentPhone, v.parentConsentStatus, v.parentConsentAt, v.interests.join('; '),
         v.availability.join('; '), v.notes, v.disclaimerVersion, v.disclaimerAcceptedAt, v.acceptedIp,
         v.signatureName, v.parentSignatureName, v.consentPdfGeneratedAt, v.consentPdfSentAt,
       ].map(csvCell).join(','),

@@ -2,7 +2,6 @@ const PDFDocument = require('pdfkit');
 const { disclaimer, options } = require('./shared');
 
 const NAVY = '#0d2847';
-const ORANGE = '#ea580c';
 const MUTED = '#64748b';
 
 const labelFor = (list, value) => list.find((o) => o.value === value)?.label ?? value;
@@ -75,8 +74,12 @@ function buildConsentPdf(v) {
       ['Email', v.email],
       ['Phone', v.phone || '—'],
     ];
-    if (v.account_type === 'student') {
-      rows.push(['Parent / guardian email', v.parent_email || '—'], ['Parent / guardian phone', v.parent_phone || '—']);
+    if (v.account_type === 'student' || v.account_type === 'parent') {
+      rows.push(
+        ['Parent / guardian name', v.parent_name || '—'],
+        ['Parent / guardian email', v.parent_email || '—'],
+        ['Parent / guardian phone', v.parent_phone || '—'],
+      );
     }
     const interests = parseList(v.interests).map((i) => labelFor(options.interests, i));
     const availability = parseList(v.availability).map((i) => labelFor(options.availability, i));
@@ -101,20 +104,18 @@ function buildConsentPdf(v) {
     }
     doc.moveDown(0.5).font('Helvetica-Oblique').fontSize(9.5).fillColor('#334155').text(disclaimer.closing, { width });
 
-    signatureBlock(
-      doc,
-      v.account_type === 'student' ? 'Student acknowledgement' : 'Volunteer signature',
-      v.signature_name,
-      v.signature_png,
-      v.disclaimer_accepted_at,
-      v.accepted_ip,
-    );
     if (v.account_type === 'student') {
-      if (v.parent_consent_status === 'confirmed') {
-        signatureBlock(doc, 'Parent / guardian consent', v.parent_signature_name, v.parent_signature_png, v.parent_consent_at, v.parent_consent_ip);
-      } else {
-        doc.moveDown(0.8).font('Helvetica-Bold').fontSize(10).fillColor(ORANGE).text('Parent / guardian consent: PENDING', x);
-      }
+      const confirmed = v.parent_consent_status === 'confirmed';
+      signatureBlock(
+        doc,
+        'Parent / guardian consent',
+        (confirmed && v.parent_signature_name) || v.parent_name || v.signature_name,
+        confirmed ? v.parent_signature_png : null,
+        confirmed ? v.parent_consent_at : v.disclaimer_accepted_at,
+        confirmed ? v.parent_consent_ip : v.accepted_ip,
+      );
+    } else {
+      signatureBlock(doc, 'Volunteer signature', v.signature_name, v.signature_png, v.disclaimer_accepted_at, v.accepted_ip);
     }
 
     doc.moveDown(1).font('Helvetica').fontSize(8).fillColor(MUTED).text(

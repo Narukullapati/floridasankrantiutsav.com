@@ -245,7 +245,8 @@
             <dl class="adm-dl">
               <dt>Email</dt><dd><a [href]="'mailto:' + v.email">{{ v.email }}</a></dd>
               <dt>Phone</dt><dd>@if (v.phone) { <a [href]="'tel:' + v.phone">{{ v.phone }}</a> } @else { — }</dd>
-              @if (v.parentEmail || v.parentPhone) {
+              @if (v.parentName || v.parentEmail || v.parentPhone) {
+                <dt>Parent name</dt><dd>{{ v.parentName || '—' }}</dd>
                 <dt>Parent email</dt><dd>@if (v.parentEmail) { <a [href]="'mailto:' + v.parentEmail">{{ v.parentEmail }}</a> } @else { — }</dd>
                 <dt>Parent phone</dt><dd>@if (v.parentPhone) { <a [href]="'tel:' + v.parentPhone">{{ v.parentPhone }}</a> } @else { — }</dd>
               }
@@ -275,7 +276,7 @@
               @if (v.parentConsentAt) {
                 <dt>Consent given</dt><dd>{{ formatDate(v.parentConsentAt) }} · {{ v.parentConsentIp || '—' }}</dd>
               }
-              <dt>Signed by</dt><dd>{{ v.signatureName || '—' }}@if (!v.hasSignature) { <span class="adm-muted"> (no drawn signature)</span> }</dd>
+              <dt>Accepted by</dt><dd>{{ v.signatureName || '—' }}@if (v.acceptedIp) { <span class="adm-muted"> · {{ v.acceptedIp }}</span> }</dd>
               @if (v.accountType === 'student') {
                 <dt>Parent signed by</dt><dd>{{ v.parentSignatureName || '—' }}</dd>
               }

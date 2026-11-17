@@ -14,11 +14,17 @@ const base = {
   signatureImage: sampleDataUrl(),
 };
 
-test('student requires parent email and phone', () => {
+test('student requires parent name, email and phone', () => {
   const { errors } = validateRegistration({ ...base, accountType: 'student' });
+  assert.ok(errors.parentName);
   assert.ok(errors.parentEmail);
   assert.ok(errors.parentPhone);
   assert.equal(errors.phone, undefined);
+});
+
+test('parent is no longer a valid account type', () => {
+  const { errors } = validateRegistration({ ...base, accountType: 'parent', phone: '8135550100' });
+  assert.ok(errors.accountType);
 });
 
 test('adult requires own phone and ignores parent fields', () => {
@@ -31,6 +37,7 @@ test('valid student is normalized', () => {
   const { errors, value } = validateRegistration({
     ...base,
     accountType: 'student',
+    parentName: 'Rao Reddy',
     parentEmail: 'mom@example.com',
     parentPhone: '(813) 555-9876',
     interests: ['food', 'food', 'nope'],
@@ -51,8 +58,9 @@ test('parent email must differ from student email', () => {
   assert.ok(errors.parentEmail);
 });
 
-test('signature name and drawn signature are required', () => {
-  const { errors } = validateRegistration({ ...base, accountType: 'volunteer', phone: '8135550100', signatureName: '', signatureImage: '' });
-  assert.ok(errors.signatureName);
-  assert.ok(errors.signatureImage);
+test('digital signature is derived from identity, not required in the payload', () => {
+  const { errors, value } = validateRegistration({ ...base, accountType: 'volunteer', phone: '8135550100' });
+  assert.deepEqual(errors, {});
+  assert.equal(value.signatureName, 'Anu Reddy');
+  assert.equal(value.signaturePng, null);
 });

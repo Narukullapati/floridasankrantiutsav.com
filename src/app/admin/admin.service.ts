@@ -15,6 +15,7 @@ export interface Volunteer {
   lastName: string;
   email: string;
   phone: string | null;
+  parentName: string | null;
   parentEmail: string | null;
   parentPhone: string | null;
   interests: string[];

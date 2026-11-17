@@ -56,12 +56,12 @@ app.post('/api/volunteers', registerLimiter, async (req, res) => {
   try {
     const [result] = await pool.execute(
       `INSERT INTO volunteers
-        (account_type, first_name, middle_name, last_name, email, phone, parent_email, parent_phone,
+        (account_type, first_name, middle_name, last_name, email, phone, parent_name, parent_email, parent_phone,
          interests, availability, notes, disclaimer_version, disclaimer_accepted_at, accepted_ip, user_agent,
          parent_consent_status, parent_consent_token, signature_name, signature_png)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, ?, ?, ?, ?, ?)`,
       [
-        v.accountType, v.firstName, v.middleName, v.lastName, v.email, v.phone, v.parentEmail, v.parentPhone,
+        v.accountType, v.firstName, v.middleName, v.lastName, v.email, v.phone, v.parentName, v.parentEmail, v.parentPhone,
         JSON.stringify(v.interests), JSON.stringify(v.availability), v.notes, disclaimer.version,
         req.ip ?? null, (req.get('user-agent') || '').slice(0, 255) || null,
         isStudent ? 'pending' : 'not_required', token, v.signatureName, v.signaturePng,

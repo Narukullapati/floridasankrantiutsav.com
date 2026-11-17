@@ -113,6 +113,12 @@
 
                 @if (isStudent()) {
                   <div class="fsu-vol-field">
+                    <label for="vol-parentName">Parent / guardian full name <span class="fsu-vol-req">*</span></label>
+                    <input id="vol-parentName" type="text" formControlName="parentName" placeholder="Parent / guardian name" autocomplete="name" [class.is-invalid]="error('parentName')" />
+                    @if (error('parentName'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
+                  </div>
+
+                  <div class="fsu-vol-field">
                     <label for="vol-parentEmail">Parent / guardian email <span class="fsu-vol-req">*</span></label>
                     <input id="vol-parentEmail" type="email" formControlName="parentEmail" placeholder="parent@example.com" [class.is-invalid]="error('parentEmail')" />
                     @if (error('parentEmail'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
@@ -178,25 +184,13 @@
 
               <label class="fsu-vol-agree" [class.is-invalid]="error('disclaimerAccepted')">
                 <input type="checkbox" formControlName="disclaimerAccepted" />
-                <span>I have read and agree to the disclaimer and waiver.</span>
+                <span>I have read and agree to the disclaimer and waiver.@if (isStudent()) { My parent / guardian will confirm consent by email. }</span>
               </label>
               @if (error('disclaimerAccepted'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
-
-              <fieldset class="fsu-vol-group fsu-vol-sign">
-                <legend>Digital signature <span class="fsu-vol-req">*</span></legend>
-                <p class="fsu-vol-sign-note">
-                  By signing, you confirm the information above is correct and you agree to the disclaimer and waiver.
-                  @if (isStudent()) { Your parent / guardian will also sign to give consent. }
-                  A signed PDF copy is saved with your registration.
-                </p>
-                <div class="fsu-vol-field fsu-vol-field-full">
-                  <label for="vol-signatureName">Full name (typed signature) <span class="fsu-vol-req">*</span></label>
-                  <input id="vol-signatureName" type="text" formControlName="signatureName" placeholder="Type your full legal name" autocomplete="name" [class.is-invalid]="error('signatureName')" />
-                  @if (error('signatureName'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
-                </div>
-                <fsu-signature-pad [invalid]="!!error('signatureImage')" (signed)="onSigned($event)" />
-                @if (error('signatureImage'); as e) { <span class="fsu-vol-err">{{ e }}</span> }
-              </fieldset>
+              <p class="fsu-vol-sign-note">
+                Submitting this form is your digital signature — we record your name, the date / time and your IP address
+                with your agreement. A PDF copy is saved with your registration.
+              </p>
 
             </div>
 

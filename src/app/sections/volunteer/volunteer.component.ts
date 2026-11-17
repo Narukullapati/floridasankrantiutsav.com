@@ -16,12 +16,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import disclaimer from './disclaimer.json';
 import options from './volunteer-options.json';
-import { SignaturePadComponent } from './signature-pad.component';
 import { VolunteerModalService } from './volunteer-modal.service';
 
 const HASH = '#volunteer';
 
-type AccountType = 'student' | 'parent' | 'volunteer';
+type AccountType = 'student' | 'volunteer';
 type Status = 'idle' | 'submitting' | 'success';
 
 interface ApiError {
@@ -40,7 +39,7 @@ function phoneValidator(control: AbstractControl): ValidationErrors | null {
 
 @Component({
   selector: 'fsu-volunteer',
-  imports: [ReactiveFormsModule, SignaturePadComponent],
+  imports: [ReactiveFormsModule],
   templateUrl: './volunteer.component.html',
   styleUrl: './volunteer.component.css',
   encapsulation: ViewEncapsulation.None,
@@ -52,7 +51,6 @@ export class VolunteerComponent {
   readonly modal = inject(VolunteerModalService);
   private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private readonly body = viewChild<ElementRef<HTMLElement>>('body');
-  private readonly signaturePad = viewChild(SignaturePadComponent);
   private returnFocus: HTMLElement | null = null;
   private shown = false;
 
@@ -73,6 +71,7 @@ export class VolunteerComponent {
     middleName: ['', Validators.maxLength(80)],
     lastName: ['', [Validators.required, Validators.maxLength(80)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(254)]],
+    parentName: ['', [Validators.required, Validators.maxLength(160)]],
     parentEmail: ['', [Validators.required, Validators.email, Validators.maxLength(254)]],
     parentPhone: ['', [Validators.required, phoneValidator]],
     phone: ['', phoneValidator],
@@ -80,8 +79,6 @@ export class VolunteerComponent {
     availability: this.fb.control<string[]>([]),
     notes: ['', Validators.maxLength(1000)],
     disclaimerAccepted: [false, Validators.requiredTrue],
-    signatureName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(160)]],
-    signatureImage: ['', Validators.required],
     website: [''],
   });
 
@@ -146,12 +143,14 @@ export class VolunteerComponent {
   }
 
   private applyAccountType(type: AccountType): void {
-    const { parentEmail, parentPhone, phone } = this.form.controls;
+    const { parentName, parentEmail, parentPhone, phone } = this.form.controls;
     if (type === 'student') {
+      parentName.enable({ emitEvent: false });
       parentEmail.enable({ emitEvent: false });
       parentPhone.enable({ emitEvent: false });
       phone.setValidators(phoneValidator);
     } else {
+      parentName.disable({ emitEvent: false });
       parentEmail.disable({ emitEvent: false });
       parentPhone.disable({ emitEvent: false });
       phone.setValidators([Validators.required, phoneValidator]);
@@ -175,8 +174,6 @@ export class VolunteerComponent {
     const e = control.errors;
     if (e['required']) {
       if (name === 'disclaimerAccepted') return 'You must agree to the disclaimer and waiver.';
-      if (name === 'signatureName') return 'Type your full name to sign.';
-      if (name === 'signatureImage') return 'Please sign in the signature box.';
       return name.toLowerCase().includes('phone') ? 'Phone number is required.' : 'This field is required.';
     }
     if (e['email']) return 'Enter a valid email address.';
@@ -202,6 +199,7 @@ export class VolunteerComponent {
     this.http
       .post('/api/volunteers', {
         ...value,
+        parentName: student ? value.parentName : undefined,
         parentEmail: student ? value.parentEmail : undefined,
         parentPhone: student ? value.parentPhone : undefined,
         disclaimerVersion: disclaimer.version,
@@ -228,15 +226,8 @@ export class VolunteerComponent {
     setTimeout(() => this.dialog()?.nativeElement.querySelector<HTMLElement>('.is-invalid')?.focus());
   }
 
-  onSigned(dataUrl: string | null): void {
-    const control = this.form.controls.signatureImage;
-    control.setValue(dataUrl ?? '');
-    control.markAsTouched();
-  }
-
   reset(): void {
     this.form.reset();
-    this.signaturePad()?.clear();
     this.submitted.set(false);
     this.serverErrors.set({});
     this.errorMessage.set('');

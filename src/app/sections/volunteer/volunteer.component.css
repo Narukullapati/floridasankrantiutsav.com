@@ -667,3 +667,18 @@ html.fsu-modal-open {
 .fsu-sig-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 6px; font-size: 12.5px; color: #64748b; }
 .fsu-sig-clear { background: none; border: 0; padding: 4px 0; color: #ea580c; font: inherit; font-weight: 700; cursor: pointer; }
 .fsu-sig-clear:hover { text-decoration: underline; }
+
+.fsu-vol-sig-preview {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  height: 92px;
+  object-fit: contain;
+  object-position: left center;
+  background: #fff;
+  border: 1.5px dashed #94a3b8;
+  border-radius: 14px;
+  padding: 8px 12px;
+  margin-top: 10px;
+}
+.fsu-vol-sig-hint { display: block; margin-top: 6px; font-size: 12.5px; color: #64748b; }

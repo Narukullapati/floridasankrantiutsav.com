@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS volunteers (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`;
 
 const COLUMNS = {
+  parent_name: 'VARCHAR(160) NULL',
   signature_name: 'VARCHAR(160) NULL',
   signature_png: 'MEDIUMBLOB NULL',
   parent_signature_name: 'VARCHAR(160) NULL',
